@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cinzel", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-gold-50: #faf8f4;
+  --color-gold-100: #f5ecd8;
+  --color-gold-200: #ebdaae;
+  --color-gold-300: #dec27b;
+  --color-gold-400: #d1aa55;
+  --color-gold-500: #C5A059;
+  --color-gold-600: #a5813f;
+  --color-gold-700: #7d5f2f;
+  --color-gold-800: #553f20;
+  --color-gold-900: #382a15;
+  
+  --color-royal-50: #f8fafc;
+  --color-royal-100: #f1f5f9;
+  --color-royal-200: #cbd5e1;
+  --color-royal-300: #94a3b8;
+  --color-royal-400: #64748b;
+  --color-royal-500: #475569;
+  --color-royal-600: #334155;
+  --color-royal-700: #1e293b;
+  --color-royal-800: #0C0F16;
+  --color-royal-900: #0C0F16;
+  --color-royal-950: #05070A;
+}
+
+/* Custom glow effects and styling matching the Frosted Glass theme */
+.royal-glow {
+  box-shadow: 0 0 20px rgba(197, 160, 89, 0.15);
+}
+
+.royal-glow-lg {
+  box-shadow: 0 0 35px rgba(197, 160, 89, 0.25);
+}
+
+.royal-text-gradient {
+  background: linear-gradient(135deg, #fff 30%, #dec27b 70%, #C5A059 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-text-gradient {
+  background: linear-gradient(135deg, #dec27b 0%, #C5A059 50%, #a5813f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Glass Panels with high backdrop-blur and border-white/10 */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-hover:hover {
+  border-color: rgba(197, 160, 89, 0.5);
+  box-shadow: 0 0 25px rgba(197, 160, 89, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #05070A;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C5A059;
+}

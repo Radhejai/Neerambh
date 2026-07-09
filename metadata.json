@@ -1,0 +1,6 @@
+{
+  "name": "Neerambh",
+  "description": "Futuristic financial, tax compliance, and corporate registration services with a frosted glass design aesthetic and a built-in AI Compliance Advisor.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
