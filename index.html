@@ -1,13 +1,1326 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neerambh — Compliance Sanctuary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --bg:       #05070A;
+  --surface:  #0C0F16;
+  --panel:    rgba(255,255,255,0.04);
+  --border:   rgba(255,255,255,0.08);
+  --gold:     #C5A059;
+  --gold-lt:  #DEC27B;
+  --gold-dim: #7A6030;
+  --text:     #CBD5E1;
+  --muted:    #64748B;
+  --white:    #FFFFFF;
+  --ff-serif: 'Cinzel', Georgia, serif;
+  --ff-sans:  'Outfit', system-ui, sans-serif;
+  --ff-mono:  'JetBrains Mono', monospace;
+  --glow:     0 0 24px rgba(197,160,89,0.14);
+  --glow-lg:  0 0 48px rgba(197,160,89,0.22);
+  --r:        10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--ff-sans);
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  line-height:1.6;
+}
+/* grid background */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(197,160,89,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(197,160,89,.03) 1px,transparent 1px);
+  background-size:56px 56px;
+  pointer-events:none;
+  z-index:0;
+}
+/* ambient orbs */
+.orb{
+  position:fixed;border-radius:50%;
+  pointer-events:none;z-index:0;filter:blur(80px);
+}
+.orb-1{
+  width:600px;height:600px;
+  top:-200px;right:-200px;
+  background:radial-gradient(circle,rgba(106,63,163,.18),transparent 70%);
+}
+.orb-2{
+  width:500px;height:500px;
+  bottom:-200px;left:-200px;
+  background:radial-gradient(circle,rgba(197,160,89,.12),transparent 70%);
+}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+img{max-width:100%}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--gold)}
 
+/* ═══════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════ */
+.z1{position:relative;z-index:1}
+.container{max-width:1140px;margin:0 auto;padding:0 24px}
+.eyebrow{
+  font-family:var(--ff-sans);font-size:.7rem;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--gold);
+}
+.section-title{
+  font-family:var(--ff-serif);font-size:clamp(1.8rem,3.5vw,2.8rem);
+  font-weight:700;color:var(--white);line-height:1.18;
+}
+.gold-text{
+  background:linear-gradient(135deg,var(--gold-lt),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.glass{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  backdrop-filter:blur(20px);
+}
+.glow{box-shadow:var(--glow)}
+.glow-lg{box-shadow:var(--glow-lg)}
+.btn-gold{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 28px;border-radius:6px;
+  background:linear-gradient(135deg,#a5813f,var(--gold),var(--gold-lt));
+  color:var(--bg);font-family:var(--ff-sans);font-weight:700;
+  font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+  transition:filter .2s,transform .2s,box-shadow .2s;
+}
+.btn-gold:hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 8px 28px rgba(197,160,89,.3)}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 28px;border-radius:6px;
+  border:1px solid rgba(255,255,255,.15);
+  color:var(--text);font-family:var(--ff-sans);font-weight:500;
+  font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+  transition:border-color .2s,color .2s;
+}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.divider{height:1px;background:var(--border);margin:0}
+
+/* ═══════════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════════ */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(5,7,10,.88);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(24px);
+}
+.nav-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  height:68px;max-width:1140px;margin:0 auto;padding:0 24px;
+}
+.nav-logo{
+  display:flex;align-items:center;gap:12px;
+  cursor:pointer;
+}
+.logo-icon{
+  width:40px;height:40px;border-radius:8px;
+  border:1px solid rgba(197,160,89,.3);
+  background:var(--surface);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;
+  transition:border-color .2s,box-shadow .2s;
+}
+.nav-logo:hover .logo-icon{border-color:var(--gold);box-shadow:var(--glow)}
+.logo-text strong{
+  display:block;font-family:var(--ff-serif);font-size:1.1rem;
+  letter-spacing:.12em;color:var(--white);
+}
+.logo-text span{
+  display:block;font-size:.62rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--gold);margin-top:-2px;
+}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-tab{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 16px;border-radius:6px;
+  font-size:.8rem;font-weight:500;letter-spacing:.04em;
+  color:var(--muted);transition:color .2s,background .2s;
+}
+.nav-tab:hover{color:var(--white);background:rgba(255,255,255,.05)}
+.nav-tab.active{color:var(--gold);background:rgba(197,160,89,.08);border:1px solid rgba(197,160,89,.15)}
+.nav-sep{width:1px;height:22px;background:var(--border);margin:0 8px}
+.nav-ask{
+  display:flex;align-items:center;gap:8px;
+  padding:9px 20px;border-radius:6px;
+  border:1px solid var(--gold);color:var(--gold);
+  font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  transition:background .2s,color .2s;
+}
+.nav-ask:hover{background:var(--gold);color:var(--bg)}
+/* mobile */
+.nav-hamburger{display:none;padding:6px;color:var(--text)}
+.nav-mobile{
+  display:none;flex-direction:column;gap:4px;
+  padding:12px 24px 16px;border-top:1px solid var(--border);
+  background:rgba(5,7,10,.96);
+}
+.nav-mobile.open{display:flex}
+.nav-mobile .nav-tab{width:100%;padding:12px 14px}
+.nav-mobile .nav-ask{justify-content:center;margin-top:8px}
+@media(max-width:720px){
+  .nav-links{display:none}
+  .nav-hamburger{display:block}
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero{
+  padding:80px 0 64px;
+  position:relative;z-index:1;
+}
+.hero-inner{
+  max-width:820px;margin:0 auto;text-align:center;padding:0 24px;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 16px;border-radius:100px;
+  border:1px solid rgba(197,160,89,.2);
+  background:rgba(197,160,89,.06);
+  font-size:.7rem;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:28px;
+}
+.hero h1{
+  font-family:var(--ff-serif);
+  font-size:clamp(2.4rem,5.5vw,4.2rem);
+  font-weight:700;line-height:1.1;color:var(--white);
+  margin-bottom:20px;
+}
+.hero-sub{
+  font-size:1rem;font-weight:300;color:var(--muted);
+  max-width:560px;margin:0 auto 40px;line-height:1.75;
+}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:56px}
+.hero-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;border:1px solid var(--border);border-radius:var(--r);
+  overflow:hidden;
+}
+.stat{
+  padding:20px 24px;text-align:center;
+  border-right:1px solid var(--border);
+}
+.stat:last-child{border-right:none}
+.stat-n{
+  display:block;font-family:var(--ff-serif);
+  font-size:1.8rem;font-weight:700;color:var(--white);
+  line-height:1.1;margin-bottom:4px;
+}
+.stat-l{
+  font-size:.65rem;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);
+}
+@media(max-width:580px){
+  .hero-stats{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(2){border-right:none}
+  .stat:nth-child(3){border-top:1px solid var(--border)}
+  .stat{border-right:1px solid var(--border)}
+  .stat:nth-child(4){border-right:none;border-top:1px solid var(--border)}
+}
+
+/* ═══════════════════════════════════════════
+   MAIN PANELS
+═══════════════════════════════════════════ */
+.panel{display:none;padding:48px 0 80px;position:relative;z-index:1}
+.panel.active{display:block}
+
+/* ═══════════════════════════════════════════
+   SERVICES — FILTER + GRID
+═══════════════════════════════════════════ */
+.filter-bar{
+  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px;
+  padding-bottom:24px;border-bottom:1px solid var(--border);
+}
+.filter-btn{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 16px;border-radius:100px;
+  border:1px solid var(--border);
+  font-size:.75rem;font-weight:600;letter-spacing:.04em;
+  color:var(--muted);background:transparent;
+  transition:all .2s;
+}
+.filter-btn:hover{border-color:rgba(197,160,89,.3);color:var(--white)}
+.filter-btn.active{
+  background:var(--gold);color:var(--bg);
+  border-color:var(--gold);
+  box-shadow:0 0 16px rgba(197,160,89,.25);
+}
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:16px;
+}
+.svc-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--r);
+  padding:24px;cursor:pointer;position:relative;overflow:hidden;
+  transition:border-color .25s,background .25s,transform .25s,box-shadow .25s;
+}
+.svc-card::before{
+  content:'';
+  position:absolute;inset-x-0;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.svc-card:hover{
+  border-color:rgba(197,160,89,.4);
+  background:rgba(197,160,89,.04);
+  transform:translateY(-2px);box-shadow:var(--glow);
+}
+.svc-card:hover::before{opacity:1}
+.svc-cat{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 12px;border-radius:100px;
+  font-size:.68rem;font-weight:600;letter-spacing:.06em;
+  margin-bottom:14px;
+}
+.cat-incorporation{color:#818cf8;background:rgba(129,140,248,.1);border:1px solid rgba(129,140,248,.2)}
+.cat-tax{color:#34d399;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2)}
+.cat-audit{color:#fbbf24;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.2)}
+.cat-compliance{color:#38bdf8;background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.2)}
+.cat-registration{color:#f87171;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2)}
+.svc-timeline{
+  font-family:var(--ff-mono);font-size:.7rem;color:var(--gold);
+  margin-left:auto;
+}
+.svc-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.svc-title{
+  font-family:var(--ff-serif);font-size:1.05rem;font-weight:600;
+  color:var(--white);margin-bottom:10px;line-height:1.3;
+  transition:color .2s;
+}
+.svc-card:hover .svc-title{color:var(--gold-lt)}
+.svc-desc{font-size:.84rem;color:var(--muted);line-height:1.65;margin-bottom:18px}
+.svc-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:16px;border-top:1px solid var(--border);
+}
+.svc-price{font-family:var(--ff-mono);font-size:.75rem;color:var(--gold)}
+.svc-view{
+  font-size:.72rem;font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--gold);
+  display:flex;align-items:center;gap:4px;
+  transition:gap .2s;
+}
+.svc-card:hover .svc-view{gap:8px}
+
+/* ═══════════════════════════════════════════
+   SERVICE DETAIL MODAL
+═══════════════════════════════════════════ */
+.modal-bg{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:rgba(5,7,10,.85);backdrop-filter:blur(8px);
+  align-items:center;justify-content:center;padding:16px;
+}
+.modal-bg.open{display:flex}
+.modal{
+  width:100%;max-width:680px;max-height:90vh;
+  background:rgba(12,15,22,.98);border:1px solid rgba(197,160,89,.2);
+  border-radius:14px;box-shadow:var(--glow-lg);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.modal-head{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding:24px 28px;border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+.modal-cat-label{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.modal-title{font-family:var(--ff-serif);font-size:1.5rem;font-weight:700;color:var(--white)}
+.modal-close{
+  width:34px;height:34px;border-radius:6px;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--muted);transition:all .2s;flex-shrink:0;
+}
+.modal-close:hover{border-color:var(--gold);color:var(--gold)}
+.modal-body{overflow-y:auto;padding:24px 28px;flex:1}
+.modal-section{margin-bottom:24px}
+.modal-section-label{
+  font-size:.65rem;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+.modal-section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.modal-p{font-size:.88rem;color:var(--text);line-height:1.75}
+.modal-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.meta-box{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:6px;padding:12px 14px}
+.meta-box span{display:block;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.meta-box strong{font-size:.83rem;font-weight:600;color:var(--white)}
+.modal-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.modal-list li{
+  font-size:.85rem;color:var(--text);line-height:1.6;
+  padding-left:16px;position:relative;
+}
+.modal-list li::before{content:'◆';position:absolute;left:0;color:var(--gold);font-size:.45rem;top:6px}
+.modal-list.check li::before{content:'✓';font-size:.75rem;top:2px;color:#34d399}
+.faq-item{border-bottom:1px solid var(--border);padding-bottom:14px;margin-bottom:14px}
+.faq-item:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0}
+.faq-q{
+  font-size:.85rem;font-weight:600;color:var(--gold-lt);
+  margin-bottom:6px;cursor:pointer;
+  display:flex;justify-content:space-between;align-items:flex-start;gap:8px;
+}
+.faq-a{font-size:.83rem;color:var(--muted);line-height:1.68;display:none}
+.faq-a.open{display:block}
+.modal-foot{
+  padding:18px 28px;border-top:1px solid var(--border);
+  display:flex;gap:10px;flex-shrink:0;
+}
+.modal-foot .btn-gold{flex:1;justify-content:center}
+.modal-foot .btn-ghost{padding:13px 20px}
+
+/* ═══════════════════════════════════════════
+   CONTACT PANEL
+═══════════════════════════════════════════ */
+.contact-grid{
+  display:grid;grid-template-columns:1fr 1.1fr;gap:40px;align-items:start;
+}
+@media(max-width:768px){.contact-grid{grid-template-columns:1fr}}
+.contact-channels{display:flex;flex-direction:column;gap:12px;margin-top:24px}
+.channel{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 18px;border-radius:8px;
+  border:1px solid var(--border);background:var(--panel);
+  transition:border-color .2s,background .2s,transform .2s;
+  text-decoration:none;color:inherit;
+}
+.channel:hover{
+  border-color:rgba(197,160,89,.35);
+  background:rgba(197,160,89,.05);
+  transform:translateX(4px);
+}
+.ch-icon{
+  width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;flex-shrink:0;
+}
+.ch-text strong{display:block;font-size:.85rem;font-weight:600;color:var(--white);margin-bottom:2px}
+.ch-text span{font-size:.78rem;color:var(--muted)}
+.ch-arrow{margin-left:auto;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
+.trust-box{
+  border:1px solid rgba(197,160,89,.12);
+  background:rgba(197,160,89,.04);
+  border-radius:8px;padding:16px 18px;
+  display:flex;gap:12px;align-items:flex-start;
+  margin-top:24px;
+}
+.trust-box p{font-size:.8rem;color:var(--muted);line-height:1.65}
+/* form */
+.form-wrap{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:var(--r);padding:32px;
+}
+.form-title{font-family:var(--ff-serif);font-size:1.4rem;font-weight:700;color:var(--white);margin-bottom:4px}
+.form-sub{font-size:.82rem;color:var(--muted);margin-bottom:24px}
+.form-group{margin-bottom:16px}
+.form-group label{
+  display:block;font-size:.68rem;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;
+}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;padding:11px 14px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);border-radius:6px;
+  font-family:var(--ff-sans);font-size:.88rem;color:var(--white);
+  outline:none;transition:border-color .2s,background .2s;
+  appearance:none;
+}
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--muted)}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{
+  border-color:rgba(197,160,89,.5);background:rgba(197,160,89,.04);
+}
+.form-group select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748B' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;
+  padding-right:36px;cursor:pointer;
+}
+.form-group select option{background:#0C0F16}
+.form-group textarea{min-height:100px;resize:vertical}
+.form-err{
+  display:none;padding:10px 14px;border-radius:6px;
+  border:1px solid rgba(248,113,113,.25);background:rgba(248,113,113,.08);
+  font-size:.8rem;color:#fca5a5;margin-bottom:14px;
+}
+.form-err.show{display:block}
+.form-success{display:none;text-align:center;padding:32px 0}
+.form-success.show{display:block}
+.form-success-icon{font-size:2.5rem;margin-bottom:12px}
+.form-success h4{font-family:var(--ff-serif);font-size:1.3rem;color:var(--gold);margin-bottom:8px}
+.form-success p{font-size:.85rem;color:var(--muted)}
+
+/* ═══════════════════════════════════════════
+   AI ADVISOR DRAWER
+═══════════════════════════════════════════ */
+.drawer-bg{
+  display:none;position:fixed;inset:0;z-index:200;
+  background:rgba(5,7,10,.6);backdrop-filter:blur(4px);
+}
+.drawer-bg.open{display:block}
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;width:460px;max-width:100vw;
+  background:rgba(12,15,22,.98);border-left:1px solid var(--border);
+  display:flex;flex-direction:column;z-index:201;
+  transform:translateX(100%);transition:transform .35s cubic-bezier(.16,1,.3,1);
+}
+.drawer.open{transform:translateX(0)}
+.drawer-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 20px;border-bottom:1px solid var(--border);flex-shrink:0;
+}
+.drawer-head-l{display:flex;align-items:center;gap:10px}
+.ai-dot{
+  width:36px;height:36px;border-radius:8px;border:1px solid rgba(197,160,89,.3);
+  background:var(--surface);display:flex;align-items:center;justify-content:center;
+  font-size:.95rem;
+}
+.drawer-title{font-family:var(--ff-serif);font-size:.95rem;font-weight:700;color:var(--white);letter-spacing:.06em}
+.drawer-sub{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold)}
+.drawer-actions{display:flex;gap:4px}
+.drawer-btn{
+  width:30px;height:30px;border-radius:5px;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--muted);font-size:.9rem;transition:all .2s;
+}
+.drawer-btn:hover{border-color:var(--gold);color:var(--gold)}
+.chat-area{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+.msg{display:flex;flex-direction:column;max-width:88%}
+.msg.user{align-self:flex-end}
+.msg.ai{align-self:flex-start}
+.msg-bubble{
+  padding:12px 16px;border-radius:10px;font-size:.85rem;line-height:1.65;
+  word-break:break-word;
+}
+.msg.ai .msg-bubble{
+  background:rgba(255,255,255,.05);border:1px solid var(--border);
+  border-top-left-radius:2px;color:var(--text);
+}
+.msg.user .msg-bubble{
+  background:rgba(197,160,89,.12);border:1px solid rgba(197,160,89,.2);
+  border-top-right-radius:2px;color:var(--gold-lt);
+}
+.msg-time{font-family:var(--ff-mono);font-size:.65rem;color:var(--muted);margin-top:4px;padding:0 2px}
+.msg.user .msg-time{text-align:right}
+.typing{
+  display:none;align-items:center;gap:8px;
+  padding:12px 16px;border-radius:10px;border-top-left-radius:2px;
+  background:rgba(255,255,255,.05);border:1px solid var(--border);
+  font-size:.82rem;color:var(--muted);align-self:flex-start;
+}
+.typing.show{display:flex}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:blink 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
+.suggestions{padding:0 20px 8px;display:flex;flex-direction:column;gap:6px}
+.sug-label{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;display:flex;align-items:center;gap:6px}
+.sug-btn{
+  text-align:left;padding:9px 12px;border-radius:6px;
+  border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03);
+  font-size:.8rem;color:var(--text);transition:all .2s;
+}
+.sug-btn:hover{border-color:rgba(197,160,89,.2);color:var(--white);background:rgba(197,160,89,.05)}
+.chat-input-bar{
+  display:flex;gap:8px;padding:14px 20px;
+  border-top:1px solid var(--border);flex-shrink:0;
+}
+.chat-input{
+  flex:1;padding:11px 14px;background:var(--surface);
+  border:1px solid rgba(255,255,255,.1);border-radius:6px;
+  font-family:var(--ff-sans);font-size:.85rem;color:var(--white);
+  outline:none;transition:border-color .2s;
+}
+.chat-input:focus{border-color:rgba(197,160,89,.4)}
+.chat-input:disabled{opacity:.5}
+.chat-send{
+  width:42px;height:42px;border-radius:6px;flex-shrink:0;
+  background:linear-gradient(135deg,#a5813f,var(--gold));
+  color:var(--bg);font-size:1rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:filter .2s;
+}
+.chat-send:hover:not(:disabled){filter:brightness(1.15)}
+.chat-send:disabled{opacity:.4}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer{
+  position:relative;z-index:1;
+  border-top:1px solid var(--border);
+  padding:40px 0;margin-top:40px;
+  text-align:center;
+}
+.foot-logo{font-family:var(--ff-serif);font-size:1rem;letter-spacing:.14em;color:var(--gold);margin-bottom:12px}
+.foot-links{display:flex;justify-content:center;gap:24px;margin-bottom:16px}
+.foot-links a{font-size:.78rem;color:var(--muted);transition:color .2s;cursor:pointer}
+.foot-links a:hover{color:var(--gold)}
+.foot-copy{font-size:.72rem;color:rgba(100,116,139,.6)}
+
+/* disclaimer */
+.disclaimer{
+  background:rgba(197,160,89,.05);border-top:1px solid rgba(197,160,89,.12);
+  padding:12px 24px;text-align:center;position:relative;z-index:1;
+}
+.disclaimer p{font-size:.7rem;color:var(--gold-dim);line-height:1.5}
+</style>
+</head>
+<body>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- ── NAV ── -->
+<nav class="z1">
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="showPanel('services')">
+      <div class="logo-icon">⚖️</div>
+      <div class="logo-text">
+        <strong>NEERAMBH</strong>
+        <span>Compliance Sanctuary</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <button class="nav-tab active" id="tab-services" onclick="showPanel('services')">
+        🗂 Service Catalog
+      </button>
+      <button class="nav-tab" id="tab-contact" onclick="showPanel('contact')">
+        📩 Contact Us
+      </button>
+      <div class="nav-sep"></div>
+      <button class="nav-ask" onclick="openDrawer()">✦ Ask Neerambh</button>
+    </div>
+    <button class="nav-hamburger" onclick="toggleMobile()" aria-label="Menu">☰</button>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <button class="nav-tab" onclick="showPanel('services');closeMobile()">🗂 Service Catalog</button>
+    <button class="nav-tab" onclick="showPanel('contact');closeMobile()">📩 Contact Us</button>
+    <button class="nav-ask" onclick="openDrawer();closeMobile()">✦ Ask Neerambh</button>
+  </div>
+</nav>
+
+<!-- ── HERO (only on services view) ── -->
+<div id="heroWrap" class="z1">
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">⬡ Premier Compliance Platform · India · 2026</div>
+      <h1>Architecting Secure<br><span class="gold-text">Business Futures</span></h1>
+      <p class="hero-sub">
+        End-to-end GST, income tax, corporate registrations, and audit advisory — fully digitised, precisely delivered.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-gold" onclick="openDrawer()">✦ Ask Neerambh AI</button>
+        <button class="btn-ghost" onclick="showPanel('contact')">📩 Contact Advisors</button>
+      </div>
+      <div class="hero-stats glass">
+        <div class="stat"><span class="stat-n">15K+</span><span class="stat-l">Entities Registered</span></div>
+        <div class="stat"><span class="stat-n">₹26B+</span><span class="stat-l">Assets Under Audit</span></div>
+        <div class="stat"><span class="stat-n">100%</span><span class="stat-l">Filing Integrity</span></div>
+        <div class="stat"><span class="stat-n">13</span><span class="stat-l">Service Modules</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PANEL: SERVICES
+══════════════════════════════════ -->
+<div class="panel active z1" id="panel-services">
+  <div class="container">
+    <!-- Category filter -->
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" onclick="setFilter('all',this)">All Services</button>
+      <button class="filter-btn" onclick="setFilter('incorporation',this)">🏢 Incorporation</button>
+      <button class="filter-btn" onclick="setFilter('tax',this)">📊 Taxation</button>
+      <button class="filter-btn" onclick="setFilter('audit',this)">🔍 Audit</button>
+      <button class="filter-btn" onclick="setFilter('compliance',this)">📋 Compliance</button>
+      <button class="filter-btn" onclick="setFilter('registration',this)">🏷 Registrations</button>
+    </div>
+    <div class="services-grid" id="servicesGrid"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PANEL: CONTACT
+══════════════════════════════════ -->
+<div class="panel z1" id="panel-contact">
+  <div class="container">
+    <div style="margin-bottom:36px">
+      <div class="eyebrow" style="margin-bottom:10px">Get In Touch</div>
+      <h2 class="section-title">Speak to an Expert</h2>
+      <p style="font-size:.92rem;color:var(--muted);margin-top:10px;max-width:480px;line-height:1.7">
+        GST notice, income tax query, or incorporation support — connect for advice tailored to your situation.
+      </p>
+    </div>
+
+    <div class="contact-grid">
+      <!-- LEFT: channels -->
+      <div>
+        <h3 style="font-family:var(--ff-serif);font-size:1.3rem;font-weight:700;color:var(--white);margin-bottom:4px">Direct Contact</h3>
+        <p style="font-size:.85rem;color:var(--muted)">Reach us through any secure channel below.</p>
+
+        <div class="contact-channels">
+          <a href="mailto:neerambh@gmail.com" class="channel">
+            <div class="ch-icon" style="background:rgba(66,133,244,.12)">📧</div>
+            <div class="ch-text"><strong>Email</strong><span>neerambh@gmail.com</span></div>
+            <div class="ch-arrow">Write →</div>
+          </a>
+          <a href="tel:+918587025106" class="channel">
+            <div class="ch-icon" style="background:rgba(52,168,83,.12)">📞</div>
+            <div class="ch-text"><strong>Call Us</strong><span>+91 85870 25106</span></div>
+            <div class="ch-arrow">Call →</div>
+          </a>
+          <a href="https://wa.me/918587025106?text=Hello%2C%20I%20need%20compliance%20assistance." target="_blank" class="channel">
+            <div class="ch-icon" style="background:rgba(37,211,102,.12)">💬</div>
+            <div class="ch-text"><strong>WhatsApp</strong><span>Quick queries &amp; document sharing</span></div>
+            <div class="ch-arrow">Chat →</div>
+          </a>
+        </div>
+
+        <div class="trust-box" style="margin-top:24px">
+          <div style="font-size:1.2rem;flex-shrink:0">🔒</div>
+          <p style="font-size:.78rem;color:var(--muted);line-height:1.65">
+            Your documentation is protected with SSL/TLS encryption. All contact details and business information are strictly confidential.
+          </p>
+        </div>
+      </div>
+
+      <!-- RIGHT: form -->
+      <div class="form-wrap">
+        <div class="form-title">Send a Query</div>
+        <div class="form-sub">We respond within one business day.</div>
+
+        <div id="formErr" class="form-err">Please fill in your name and a contact method.</div>
+
+        <div id="contactForm">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="fname" placeholder="Full name">
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="femail" placeholder="your@email.com">
+          </div>
+          <div class="form-group">
+            <label>Mobile Number</label>
+            <input type="tel" id="fphone" placeholder="+91 XXXXX XXXXX">
+          </div>
+          <div class="form-group">
+            <label>Entity / Business Type</label>
+            <select id="fbiz">
+              <option>Private Limited Company</option>
+              <option>Limited Liability Partnership (LLP)</option>
+              <option>One Person Company (OPC)</option>
+              <option>Partnership Firm</option>
+              <option>Sole Proprietorship</option>
+              <option>Individual / Freelancer</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Area of Query</label>
+            <select id="farea">
+              <option value="">Select a topic</option>
+              <option>GST Registration</option>
+              <option>GST Returns & Compliance</option>
+              <option>GST Notice / SCN Reply</option>
+              <option>GST Appeal (Sec 107 / GSTAT)</option>
+              <option>Income Tax Returns</option>
+              <option>TDS / TCS Compliance</option>
+              <option>Tax or Statutory Audit</option>
+              <option>Company / LLP Incorporation</option>
+              <option>ROC Annual Filings</option>
+              <option>MSME / Startup India</option>
+              <option>Trademark / IEC</option>
+              <option>Accounting & Bookkeeping</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Brief Description</label>
+            <textarea id="fmsg" placeholder="Briefly describe your query, the notice you received, or your timeline..."></textarea>
+          </div>
+          <button class="btn-gold" style="width:100%;justify-content:center" onclick="submitForm()">
+            📨 Send Query
+          </button>
+        </div>
+
+        <div class="form-success" id="formSuccess">
+          <div class="form-success-icon">✅</div>
+          <h4>Query Received!</h4>
+          <p>We'll review your query and respond within one business day.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SERVICE DETAIL MODAL
+══════════════════════════════════ -->
+<div class="modal-bg" id="modalBg" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-cat-label" id="m-cat"></div>
+        <div class="modal-title" id="m-title"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="m-body"></div>
+    <div class="modal-foot">
+      <button class="btn-gold" onclick="goContact()">📩 Inquire About This</button>
+      <button class="btn-ghost" onclick="closeModal()">Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     AI ADVISOR DRAWER
+══════════════════════════════════ -->
+<div class="drawer-bg" id="drawerBg" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <div class="drawer-head-l">
+      <div class="ai-dot">✦</div>
+      <div>
+        <div class="drawer-title">NEERAMBH AI</div>
+        <div class="drawer-sub">Compliance Advisor</div>
+      </div>
+    </div>
+    <div class="drawer-actions">
+      <button class="drawer-btn" onclick="resetChat()" title="Reset chat">↺</button>
+      <button class="drawer-btn" onclick="closeDrawer()" title="Close">✕</button>
+    </div>
+  </div>
+  <div class="chat-area" id="chatArea"></div>
+  <div class="typing" id="typingDot"><span></span><span></span><span></span> Advisor formulating counsel…</div>
+  <div class="suggestions" id="sugPanel">
+    <div class="sug-label">💡 Example queries</div>
+    <button class="sug-btn" onclick="prefill(this)">I'm launching a tech startup. What do I need?</button>
+    <button class="sug-btn" onclick="prefill(this)">Which GST filings apply to micro-businesses?</button>
+    <button class="sug-btn" onclick="prefill(this)">We plan to import goods. What licences are required?</button>
+    <button class="sug-btn" onclick="prefill(this)">How do I respond to a Section 73 GST notice?</button>
+  </div>
+  <div class="chat-input-bar">
+    <input class="chat-input" id="chatInput" placeholder="Describe your business or compliance question…" onkeydown="if(event.key==='Enter')sendMsg()">
+    <button class="chat-send" id="sendBtn" onclick="sendMsg()">➤</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     DISCLAIMER + FOOTER
+══════════════════════════════════ -->
+<div class="disclaimer z1">
+  <p>This website is for general informational purposes only and does not constitute legal, tax, or professional advice. Fees and thresholds are current as of mid-2026 and are periodically revised by the relevant authorities. Please consult a qualified professional before acting on any information herein.</p>
+</div>
+<footer>
+  <div class="container">
+    <div class="foot-logo">NEERAMBH</div>
+    <div class="foot-links">
+      <a onclick="showPanel('services')">Catalog</a>
+      <a onclick="showPanel('contact')">Contact</a>
+      <a onclick="openDrawer()">AI Advisor</a>
+    </div>
+    <div class="foot-copy">© 2026 Neerambh Compliance Sanctuary · All rights reserved</div>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════ */
+const SERVICES = [
+  {
+    id:'company-inc', category:'incorporation', timeline:'7–10 Days',
+    price:'₹6,499 onwards',
+    govFees:'Based on authorised share capital & state stamp duty',
+    title:'Company & LLP Incorporation',
+    desc:'End-to-end setup for Private Limited, LLP, OPC, or Public Limited structures — name, Certificate of Incorporation, PAN, TAN, MoA/AoA.',
+    detail:'Launch your enterprise on solid legal foundations. We manage your entire setup journey — from securing your unique brand name to obtaining your Certificate of Incorporation, PAN, TAN, and drafting Memorandum & Articles of Association crafted for high-growth potential. Filed via the SPICe+ or FiLLiP portal on the MCA.',
+    docs:['PAN & Aadhaar of all Directors/Partners','Passport-size photographs','Registered office proof (electricity bill / rent agreement + NOC)','Draft of main business objects','Digital Signature Certificates of proposed directors'],
+    benefits:['Creates a distinct, legally recognised corporate persona','Limits owner liability to protect personal assets','Enables seamless equity fundraising and ESOP issuance','Establishes immediate trust with clients, banks, and suppliers'],
+    faqs:[
+      {q:'What is the difference between a Private Limited Company and an LLP?',a:'A Private Limited Company is ideal for startups seeking external venture capital and has a structured share-transfer system. An LLP has lower compliance costs and suits professional or service-based businesses.'},
+      {q:'Do I need a physical office to start incorporation?',a:'Yes, a registered address is mandatory. However, a residential address with a recent utility bill and a No Objection Certificate (NOC) from the owner is acceptable.'},
+      {q:'How long does incorporation take?',a:'Typically 7–10 business days for a complete, error-free application. Complex name reservations or queries may take a few days longer.'}
+    ]
+  },
+  {
+    id:'gst-reg', category:'registration', timeline:'3–5 Days',
+    price:'₹1,499',
+    govFees:'Nil — GST registration itself carries no government fee',
+    title:'GST Registration',
+    desc:'Acquire your GSTIN, file REG-01, complete Aadhaar authentication, and start issuing compliant invoices and claiming ITC.',
+    detail:'Mandatory for businesses crossing statutory turnover limits (₹40 lakh for goods, ₹20 lakh for services), and essential for inter-state or e-commerce trade. We guide you through Form GST REG-01, Aadhaar authentication, correct HSN/SAC classification, and respond to any officer query.',
+    docs:['PAN of the business / proprietor','Aadhaar of the proprietor / directors','Proof of business address (utility bill + NOC, or rent agreement)','Bank account statement or cancelled cheque','Constitution documents (incorporation certificate, partnership deed)'],
+    benefits:['Legal authority to collect GST and issue tax-compliant invoices','Eligibility to claim Input Tax Credit on all business purchases','Ability to supply inter-state and list on e-commerce platforms','Access to the Composition Scheme (up to ₹1.5 crore) for simplified compliance'],
+    faqs:[
+      {q:'Is GST registration mandatory for all businesses?',a:'No. It is mandatory only if annual turnover exceeds the threshold (₹40 lakh for goods, ₹20 lakh for services in general-category states) or if you conduct inter-state trade, import/export, or e-commerce sales.'},
+      {q:'Can I register voluntarily below the threshold?',a:'Yes — voluntary registration is common among businesses that want to claim ITC or deal with GST-registered clients who prefer it.'},
+      {q:'Is a separate GSTIN needed for each state?',a:'Yes, GST registration is state-wise. A business operating in multiple states needs a separate GSTIN for each state.'}
+    ]
+  },
+  {
+    id:'gst-return', category:'tax', timeline:'Monthly / Quarterly',
+    price:'₹999 / month onwards',
+    govFees:'Subject to actual tax liability and late fees if applicable',
+    title:'GST Return Filing',
+    desc:'GSTR-1, GSTR-3B, GSTR-9, GSTR-9C — monthly and quarterly filing with full GSTR-2B reconciliation to maximise ITC recovery.',
+    detail:'We file your GSTR-1 (outward supplies), reconcile your purchase register against the GSTR-2B auto-populated ITC statement, and file GSTR-3B with the net tax payment — preventing ITC mismatches, late fees (₹50/day), and interest at 18% p.a. At year-end we prepare GSTR-9 and GSTR-9C. Note the new 3-year hard limitation from FY 2025-26.',
+    docs:['Sales register and tax invoices for the period','Purchase register with supplier invoices','GSTR-2B from the GST portal','E-way bills and e-invoices generated','Bank statements to verify receipts'],
+    benefits:['Avoids ₹50/day late fees and 18% p.a. interest on unpaid tax','GSTR-1 data flows into buyer's GSTR-2B, protecting their ITC','Formally closes ITC and reconciliation for each period','Keeps e-way bill generation unblocked for ongoing business operations'],
+    faqs:[
+      {q:'What happens if I file GSTR-1 but miss GSTR-3B?',a:'Your outward supply shows up for your buyers' ITC, but your own tax liability remains unpaid and unfiled — inviting interest, late fees, and a system-generated notice.'},
+      {q:'Can I revise a GST return after filing?',a:'GSTR-1 and GSTR-3B cannot be revised once filed. Corrections are made through amendment tables in a subsequent period's return.'},
+      {q:'Is a Nil return still mandatory for a zero-activity month?',a:'Yes — a Nil return is mandatory even if there were no transactions during the period.'}
+    ]
+  },
+  {
+    id:'gst-notice', category:'compliance', timeline:'7–21 Days',
+    price:'On consultation',
+    govFees:'10% pre-deposit on disputed tax for first appeal (Sec 107)',
+    title:'GST Notices, Assessments & Appeals',
+    desc:'SCN replies, DRC-01 responses, Section 73 vs 74 strategy, first appeals to Commissioner (Section 107), and GSTAT representation.',
+    detail:'How a notice is handled in the first 15–30 days decides whether a dispute closes quietly or escalates into years of litigation. We reconcile the alleged discrepancy, draft a point-wise reply for the personal hearing, and — if the demand is confirmed — file a first appeal within the 3-month window with just a 10% pre-deposit. The GST Appellate Tribunal is now operational (Feb 2026); a one-time transitional window to 30 June 2026 applies for old unappealed orders.',
+    docs:['The notice/SCN and any earlier ASMT-10 or DRC-01A','GSTR-1, GSTR-3B, GSTR-2A/2B, GSTR-9/9C for the disputed period','Books of account, ledgers, and bank statements','Reconciliation working papers','Copies of relevant invoices, e-way bills, and contracts'],
+    benefits:['Point-wise reply with reconciliation data often closes a dispute at Stage 1','Correctly invoking Sec 73 vs 74 can dramatically reduce penalty exposure','Only 10% pre-deposit needed to stay recovery of the full demand','GSTAT now operational for second appeals — a decade-long bottleneck resolved'],
+    faqs:[
+      {q:'Do I have to pay the full demand to file an appeal?',a:'No. Under Section 107(6), only 10% of the disputed tax needs to be deposited (in addition to any admitted liability) to file the first appeal and stay recovery of the balance.'},
+      {q:'What is the transitional GSTAT window?',a:'Orders from first-appellate authorities passed since July 2017 that could not be appealed earlier (as GSTAT was non-functional) can now be filed by 30 June 2026.'},
+      {q:'Can a Section 74 (fraud) notice be challenged on jurisdictional grounds?',a:'Yes — if the facts don't show fraud, wilful misstatement, or suppression, arguing the case should have been under Section 73 (not 74) is a well-established and often successful defence.'}
+    ]
+  },
+  {
+    id:'itr-filing', category:'tax', timeline:'3–5 Days (Annual)',
+    price:'₹2,499 onwards',
+    govFees:'Based on gross income bracket; late fee under Sec 234F if delayed',
+    title:'Income Tax Return Filing',
+    desc:'Annual ITR filing with old vs new regime comparison, AIS/26AS reconciliation, capital gains, TDS set-off, and e-verification.',
+    detail:'We analyse your income across all heads — salary, house property, business, capital gains, and other sources — compare liability under both tax regimes, apply all eligible deductions, set off TDS and advance tax, and file the correct ITR form (ITR-1 to ITR-7). Under the Income Tax Act 2025 effective 1 April 2026, the terminology shifts from Assessment Year to Tax Year, but rates and slabs are broadly unchanged.',
+    docs:['Form 16/16A and Form 26AS/AIS/TIS','Bank statements and interest certificates','Capital gains statements from brokers / mutual fund houses','Investment proofs (80C, 80D, home loan interest, etc.)','Books of account and tax audit report, where applicable'],
+    benefits:['Establishes income proof for visas, loans, and government tenders','Enables carry-forward of losses to offset future income','Allows claiming of refunds of excess TDS deducted','Avoids ₹5,000 late fee under Section 234F and interest on unpaid tax'],
+    faqs:[
+      {q:'Is the new tax regime always better?',a:'Not necessarily. Income up to ₹12 lakh (₹12.75 lakh for salaried, after the standard deduction) is effectively tax-free under the new regime, but taxpayers with large home loan interest, HRA, or 80C investments may still find the old regime cheaper. Always compare before filing.'},
+      {q:'What if I miss the due date?',a:'A belated return can still be filed (with late fee and interest) up to the extended deadline for that assessment year, but certain losses can no longer be carried forward once the original due date is missed.'},
+      {q:'What are the key due dates?',a:'31st July for non-audit cases; 31st October for audit cases and partners of audited firms; 30th November for transfer-pricing cases.'}
+    ]
+  },
+  {
+    id:'tds-filing', category:'tax', timeline:'Quarterly',
+    price:'₹1,999 / quarter onwards',
+    govFees:'Based on deduction values; ₹200/day late fee under Sec 234E',
+    title:'TDS / TCS Return Filing',
+    desc:'Quarterly Form 24Q/26Q/27Q filing, deposit via Challan 281 by the 7th, and Form 16/16A certificate issuance to payees.',
+    detail:'We identify TDS/TCS applicability at the time of payment, deposit via Challan ITNS-281 by the 7th of the following month, prepare the quarterly return FVU file, and issue Form 16/16A within 15 days of the due date. Non-deduction can lead to disallowance of the deductor's own expenditure under Section 40(a)(ia).',
+    docs:['Payment vouchers and invoices for all transactions attracting TDS','PAN of every deductee','Form 15G/15H or lower-deduction certificates (Form 13) where applicable','Challan details (BSR code, number, date) for each deposit','Previous quarter's return acknowledgment for correction filing'],
+    benefits:['Prevents ₹200/day late fee under Section 234E','Provides seamless Form 16/16A to vendors, staff, and contractors','Avoids disallowance of business expenses under Section 40(a)(ia)','Keeps deductee's Form 26AS credit accurate — critical for their own tax filing'],
+    faqs:[
+      {q:'What happens if TDS is deducted but deposited late?',a:'Interest at 1.5% per month (or part of a month) applies from the date of deduction to the date of actual deposit.'},
+      {q:'Can a deductee claim TDS credit if the deductor hasn't filed the return?',a:'Only if the TDS reflects in the deductee's Form 26AS/AIS, which depends on the deductor filing an accurate quarterly return.'},
+      {q:'What is the deposit due date for March deductions?',a:'30th April — unlike the usual 7th of the following month.'}
+    ]
+  },
+  {
+    id:'gst-audit', category:'audit', timeline:'10–15 Days',
+    price:'₹9,999 onwards',
+    govFees:'Varies with annual aggregate turnover and complexity',
+    title:'GST Audit & Reconciliation (GSTR-9/9C)',
+    desc:'Statutory review of GSTR-9 and GSTR-9C — reconciling books with portal records to detect discrepancies before the department does.',
+    detail:'We perform a thorough review of your filing history, reconciling your sales and purchase books with GSTR-2A/2B and GSTR-3B to detect discrepancies proactively. GSTR-9C (self-certified reconciliation) is mandatory above ₹5 crore turnover. From FY 2025-26, a hard 3-year limitation means past periods cannot be filed after 3 years from the original due date.',
+    docs:['Audited financial statements (P&L and Balance Sheet)','All GST returns filed during the financial year','Purchase register and sales register','Internal audit reports (if any)'],
+    benefits:['Pre-emptively catches and resolves discrepancies before official notices','Ensures accurate GSTR-9 & GSTR-9C filing — mandatory above ₹2 crore','Mitigates risk of department audits, penalties, or tax demands','Improves corporate transparency and internal tax control'],
+    faqs:[
+      {q:'Who must file GSTR-9C?',a:'All regular taxpayers with aggregate turnover exceeding ₹5 crore in a financial year must file a self-certified GSTR-9C reconciliation statement.'},
+      {q:'What is the 3-year limitation on GST returns?',a:'From FY 2025-26, a return for any financial year cannot be filed after 3 years from its original due date — persistent non-filing can permanently close the ability to regularise that period.'}
+    ]
+  },
+  {
+    id:'msme-reg', category:'registration', timeline:'1–2 Days',
+    price:'₹999',
+    govFees:'Nil — Udyam registration is free on the government portal',
+    title:'MSME / Udyam Registration',
+    desc:'Instant Udyam certificate via udyamregistration.gov.in — collateral-free credit access, Section 43B(h) payment protection, and scheme eligibility.',
+    detail:'Udyam Registration replaced the earlier Udyog Aadhaar system and is the gateway to priority-sector lending, 45-day payment protection (with interest on delayed dues under MSMED Act / Section 43B(h) of IT Act), and CGTMSE collateral-free credit up to ₹10 crore. The certificate is generated instantly — no document upload needed, as data is auto-fetched from ITR and GST records.',
+    docs:['Aadhaar of the proprietor / managing partner / director','PAN of the enterprise','GSTIN (where applicable)','Bank account details','Basic investment and turnover details (auto-fetched from IT / GST)'],
+    benefits:['Collateral-free CGTMSE-backed credit up to ₹10 crore','Statutory payment protection — buyers must pay within 45 days','Section 43B(h): buyer's deduction disallowed on unpaid dues beyond 45 days','50% subsidy on trademark, patent, and barcode registration'],
+    faqs:[
+      {q:'Is Udyam Registration free?',a:'Yes, entirely free on the official government portal (udyamregistration.gov.in). Never pay a third party for what is a free government service.'},
+      {q:'What happens if my turnover crosses the Micro limit?',a:'You get a one-year grace period at the existing classification before being reclassified to Small or Medium enterprise.'},
+      {q:'Can a trading business register?',a:'Generally no — Udyam covers manufacturing and service enterprises. Pure traders are not eligible under the current framework.'}
+    ]
+  },
+  {
+    id:'iec-code', category:'registration', timeline:'1–3 Days',
+    price:'₹2,499',
+    govFees:'₹500 DGFT statutory fee (lifetime validity, no renewal)',
+    title:'Import Export Code (IEC)',
+    desc:'10-digit DGFT registration for cross-border trade — instant electronic certificate, lifetime validity, mandatory annual April–June update.',
+    detail:'The Import Export Code, issued by the Directorate General of Foreign Trade (DGFT), is required before importing or exporting goods or services, or receiving foreign exchange remittances for service exports. Filed via Form ANF-2A on the DGFT portal. IEC has lifetime validity but must be confirmed or updated annually (April–June) to remain active.',
+    docs:['PAN of the entity or proprietor','Aadhaar or identity proof of the authorised signatory','Bank account details and cancelled cheque','Address proof of the business premises','DSC or Aadhaar-based e-sign'],
+    benefits:['Legal authorisation to conduct import/export transactions','Enables customs clearance and export incentive/scheme access','Simplifies receiving foreign currency through banking channels','One IEC per PAN covers all branches and all products/services'],
+    faqs:[
+      {q:'Does IEC need to be renewed?',a:'No — IEC has lifetime validity. But an online annual update/confirmation between April and June each year is mandatory to keep it active.'},
+      {q:'Is IEC required for service exporters?',a:'Yes — IEC is required for export of services too, wherever foreign exchange remittance needs to be linked to an IEC for banking and incentive purposes.'}
+    ]
+  },
+  {
+    id:'dsc-issuance', category:'registration', timeline:'1–2 Days',
+    price:'₹1,299 (2-year validity)',
+    govFees:'Certifying authority verification fee included',
+    title:'Digital Signature Certificate (DSC)',
+    desc:'Class 3 DSC — the cryptographic signature required for MCA, GST portal, income tax, and e-tender filings.',
+    detail:'A Class 3 DSC is now the standard requirement for virtually all MCA and GST filings. Issued by a licensed Certifying Authority (eMudhra, Capricorn, Sify) via Aadhaar-based e-KYC or video verification. It can be used on a USB token or in cloud-based signing format, and registered across MCA, GST, and Income Tax portals.',
+    docs:['PAN card and Aadhaar of the applicant','Passport-size photograph','Video verification link (sent digitally)','Board resolution or authorisation letter (for company applicants)'],
+    benefits:['Mandatory for company/LLP incorporation and all ROC filings','Required to sign GST returns and income tax audit reports','Enables e-tendering, e-procurement, and trademark filings','Valid for 1, 2, or 3 years — renewable before expiry'],
+    faqs:[
+      {q:'Can one DSC be used for multiple companies?',a:'A Class 3 DSC represents the cryptographic identity of an individual. You can use it across multiple companies where you hold an authorised role.'},
+      {q:'What if my DSC expires before a critical filing?',a:'You cannot file on MCA, GST, or Income Tax portals without a valid DSC. Renewals should be initiated at least 30 days before expiry.'}
+    ]
+  },
+  {
+    id:'pan-reg', category:'registration', timeline:'3–5 Days',
+    price:'₹999',
+    govFees:'Nominal government processing fee (Aadhaar e-KYC is fastest)',
+    title:'PAN & TAN Registration',
+    desc:'Form 49A / 49B online filing — both PAN and TAN allotted within 7–15 working days; faster via Aadhaar e-KYC.',
+    detail:'PAN is mandatory for every taxpayer and for anyone entering transactions above prescribed thresholds. TAN is required by any entity deducting TDS or collecting TCS. Both can be applied for simultaneously through the SPICe+ portal at company incorporation. Holding more than one PAN is illegal and attracts a ₹10,000 penalty under Section 272B.',
+    docs:['Identity proof (Aadhaar, passport, voter ID)','Address proof (utility bill, bank statement, Aadhaar)','Date of birth proof (for individuals)','Certificate of incorporation / partnership deed (for entities)','Passport-size photograph (for individuals)'],
+    benefits:['Enables income tax return filing and refund claims','Mandatory KYC for business bank accounts and business loans','Required for GST registration, company incorporation, and most government licences','TAN allows lawful TDS deduction and issuance of Form 16/16A'],
+    faqs:[
+      {q:'Can a proprietorship use the proprietor's individual PAN?',a:'Yes — a proprietorship uses the proprietor's own PAN. Only firms, LLPs, companies, and trusts need a separate entity PAN.'},
+      {q:'What happens if PAN and Aadhaar are not linked?',a:'An unlinked PAN becomes inoperative, blocking e-verification of returns, refunds, and many financial transactions.'}
+    ]
+  },
+  {
+    id:'bookkeeping', category:'compliance', timeline:'Monthly (Ongoing)',
+    price:'₹4,999 / month onwards',
+    govFees:'Nil — service-based accounting fee',
+    title:'Accounting & Bookkeeping',
+    desc:'Cloud-based double-entry ledger maintenance, monthly GST/TDS/bank reconciliation, and financial statements ready for audit.',
+    detail:'Contemporaneous books of account are the foundation of every other compliance — GST returns, income tax filing, audits, and ROC filings all trace back to accurate records. We record transactions weekly or monthly, reconcile bank and cash balances, match GST returns to the purchase/sales registers, and prepare a trial balance and financial statements at year-end.',
+    docs:['Monthly bank statements (CSV/PDF)','All sales invoices raised','Vendor purchase invoices and expense bills','Payroll registers and salary sheets','GST portal credentials for reconciliation'],
+    benefits:['Clean books mean faster, cheaper audits and fewer IT department queries','Monthly GSTR-2B reconciliation prevents ITC mismatches surfacing at year-end','Real-time P&L and cash-flow visibility for management decisions','Fully prepared for statutory/tax audit and ROC annual filings'],
+    faqs:[
+      {q:'How long must books of account be retained?',a:'Generally at least 6 years from the end of the relevant assessment year, longer if a transfer-pricing matter or pending assessment/appeal is involved.'},
+      {q:'Which accounting software do you support?',a:'We work with Tally, Zoho Books, QuickBooks, and Xero. We can also work from Excel for smaller operations.'}
+    ]
+  },
+  {
+    id:'roc-compliance', category:'compliance', timeline:'Annual (15–20 Days)',
+    price:'₹11,999 / year onwards',
+    govFees:'ROC filing fees based on share capital; ₹100/day late fee (no cap)',
+    title:'ROC Annual Filings & Compliance',
+    desc:'AOC-4, MGT-7/MGT-7A, DIR-3 KYC, LLP-8, LLP-11 — annual filings to maintain Active MCA status and avoid uncapped late fees.',
+    detail:'Incorporating a company or LLP is only the beginning. Every year afterwards — including years with zero revenue — the entity must file financial statements and the annual return with the ROC. AOC-4 must be filed within 30 days of the AGM; MGT-7/7A within 60 days; DIR-3 KYC by 30th September each year. LLP-11 is due by 30th May; LLP-8 by 30th October. The late fee is ₹100 per day per form with NO upper cap.',
+    docs:['Audited financial statements (Balance Sheet, P&L, Cash Flow, Notes)','Board's Report and Auditor's Report','Details of shareholding / partner contribution','For LLPs: Statement of Account & Solvency signed by designated partners'],
+    benefits:['Maintains "Active" status on the MCA register — required for banking and tenders','Avoids ₹100/day per-form uncapped late fees that escalate rapidly','DIR-3 KYC keeps all directors' DINs active (₹5,000 reactivation fee if missed)','Essential for clean share transfers, equity funding, or exit processes'],
+    faqs:[
+      {q:'Does a zero-revenue company still need to file AOC-4 and MGT-7?',a:'Yes — every company must file these annually to maintain "Active" status on the MCA register, regardless of turnover or business activity.'},
+      {q:'What is MGT-7A?',a:'A simplified annual return for small companies (paid-up capital ≤ ₹4 crore and turnover ≤ ₹40 crore) and OPCs, with the same due date and late-fee structure as MGT-7 but lighter disclosure requirements.'},
+      {q:'Can the ROC late fee be waived?',a:'Generally no, except during periodic government amnesty schemes such as past Companies Fresh Start Schemes — these are exceptions, not something to plan around.'}
+    ]
+  }
+];
+
+const CAT_META = {
+  incorporation:{label:'Incorporation',icon:'🏢'},
+  tax:{label:'Taxation & Filing',icon:'📊'},
+  audit:{label:'Audit & Assurance',icon:'🔍'},
+  compliance:{label:'Corporate Compliance',icon:'📋'},
+  registration:{label:'Registration & Licences',icon:'🏷'}
+};
+
+/* ═══════════════════════════════════════════
+   PANEL SWITCHING
+═══════════════════════════════════════════ */
+let currentPanel = 'services';
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  const tab = document.getElementById('tab-' + id);
+  if (tab) tab.classList.add('active');
+  document.getElementById('heroWrap').style.display = id === 'services' ? '' : 'none';
+  currentPanel = id;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ═══════════════════════════════════════════
+   MOBILE NAV
+═══════════════════════════════════════════ */
+function toggleMobile() {
+  document.getElementById('navMobile').classList.toggle('open');
+}
+function closeMobile() {
+  document.getElementById('navMobile').classList.remove('open');
+}
+
+/* ═══════════════════════════════════════════
+   SERVICES GRID
+═══════════════════════════════════════════ */
+let activeFilter = 'all';
+function setFilter(cat, btn) {
+  activeFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid();
+}
+function renderGrid() {
+  const list = activeFilter === 'all' ? SERVICES : SERVICES.filter(s => s.category === activeFilter);
+  const meta = CAT_META;
+  document.getElementById('servicesGrid').innerHTML = list.map(s => `
+    <div class="svc-card" onclick="openModal('${s.id}')">
+      <div class="svc-card-head">
+        <span class="svc-cat cat-${s.category}">${meta[s.category].icon} ${meta[s.category].label}</span>
+        <span class="svc-timeline">${s.timeline}</span>
+      </div>
+      <div class="svc-title">${s.title}</div>
+      <div class="svc-desc">${s.desc}</div>
+      <div class="svc-footer">
+        <span class="svc-price">${s.price}</span>
+        <span class="svc-view">View Details →</span>
+      </div>
+    </div>
+  `).join('');
+}
+renderGrid();
+
+/* ═══════════════════════════════════════════
+   SERVICE MODAL
+═══════════════════════════════════════════ */
+let activeServiceId = null;
+function openModal(id) {
+  const s = SERVICES.find(x => x.id === id);
+  if (!s) return;
+  activeServiceId = id;
+  const meta = CAT_META[s.category];
+  document.getElementById('m-cat').textContent = meta.icon + ' ' + meta.label;
+  document.getElementById('m-title').textContent = s.title;
+  document.getElementById('m-body').innerHTML = `
+    <div class="modal-section">
+      <div class="modal-section-label">Overview</div>
+      <p class="modal-p">${s.detail}</p>
+    </div>
+    <div class="modal-meta">
+      <div class="meta-box"><span>Processing Timeline</span><strong>${s.timeline}</strong></div>
+      <div class="meta-box"><span>Government Fees</span><strong>${s.govFees}</strong></div>
+    </div>
+    <div class="modal-section" style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div>
+        <div class="modal-section-label">Documents Required</div>
+        <ul class="modal-list">${s.docs.map(d=>`<li>${d}</li>`).join('')}</ul>
+      </div>
+      <div>
+        <div class="modal-section-label">Key Benefits</div>
+        <ul class="modal-list check">${s.benefits.map(b=>`<li>${b}</li>`).join('')}</ul>
+      </div>
+    </div>
+    ${s.faqs && s.faqs.length ? `
+    <div class="modal-section">
+      <div class="modal-section-label">FAQs</div>
+      <div>${s.faqs.map((f,i)=>`
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(${i})">${f.q} <span id="faq-arrow-${i}">▼</span></div>
+          <div class="faq-a" id="faq-a-${i}">${f.a}</div>
+        </div>
+      `).join('')}</div>
+    </div>` : ''}
+    <div class="modal-section" style="margin-bottom:0">
+      <div class="modal-section-label">Starting Price</div>
+      <p style="font-family:var(--ff-mono);font-size:1.1rem;color:var(--gold-lt);font-weight:600">${s.price}</p>
+    </div>
+  `;
+  document.getElementById('modalBg').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function toggleFaq(i) {
+  const ans = document.getElementById('faq-a-' + i);
+  const arr = document.getElementById('faq-arrow-' + i);
+  ans.classList.toggle('open');
+  arr.textContent = ans.classList.contains('open') ? '▲' : '▼';
+}
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('modalBg')) return;
+  document.getElementById('modalBg').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function goContact() {
+  closeModal();
+  showPanel('contact');
+}
+
+/* ═══════════════════════════════════════════
+   CONTACT FORM
+═══════════════════════════════════════════ */
+function submitForm() {
+  const name = document.getElementById('fname').value.trim();
+  const email = document.getElementById('femail').value.trim();
+  const phone = document.getElementById('fphone').value.trim();
+  const biz = document.getElementById('fbiz').value;
+  const area = document.getElementById('farea').value;
+  const msg = document.getElementById('fmsg').value.trim();
+  const err = document.getElementById('formErr');
+
+  if (!name || (!email && !phone)) {
+    err.classList.add('show');
+    return;
+  }
+  err.classList.remove('show');
+
+  const sub = encodeURIComponent('Neerambh Query: ' + (area || 'General Compliance'));
+  const body = encodeURIComponent(
+    'Name: ' + name + '\nEmail: ' + email + '\nPhone: ' + phone +
+    '\nEntity: ' + biz + '\nTopic: ' + area + '\n\n' + msg
+  );
+  window.location.href = 'mailto:neerambh@gmail.com?subject=' + sub + '&body=' + body;
+
+  setTimeout(() => {
+    document.getElementById('contactForm').style.display = 'none';
+    document.getElementById('formSuccess').classList.add('show');
+  }, 400);
+}
+
+/* ═══════════════════════════════════════════
+   AI ADVISOR DRAWER
+═══════════════════════════════════════════ */
+const WELCOME = `Namaste! I am **Neerambh's Compliance Advisor** — your AI-powered guide for GST, income tax, company registration, and compliance queries.
+
+Tell me about your business (type, turnover, state of operation, or a notice you've received), and I'll point you to the right services and practical guidance.`;
+
+let chatHistory = [];
+
+function openDrawer() {
+  document.getElementById('drawerBg').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (chatHistory.length === 0) addMsg('ai', WELCOME);
+}
+function closeDrawer() {
+  document.getElementById('drawerBg').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function resetChat() {
+  chatHistory = [];
+  document.getElementById('chatArea').innerHTML = '';
+  document.getElementById('sugPanel').style.display = '';
+  addMsg('ai', WELCOME);
+}
+function prefill(btn) {
+  document.getElementById('chatInput').value = btn.textContent;
+  document.getElementById('chatInput').focus();
+}
+function addMsg(role, text) {
+  chatHistory.push({ role, text });
+  const area = document.getElementById('chatArea');
+  const div = document.createElement('div');
+  div.className = 'msg ' + (role === 'user' ? 'user' : 'ai');
+  const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  div.innerHTML = `
+    <div class="msg-bubble">${renderMarkdown(text)}</div>
+    <div class="msg-time">${time}</div>
+  `;
+  area.appendChild(div);
+  area.scrollTop = area.scrollHeight;
+}
+function renderMarkdown(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold-lt)">$1</strong>')
+    .replace(/\n\n/g, '<br><br>')
+    .replace(/\n/g, '<br>');
+}
+function setTyping(on) {
+  document.getElementById('typingDot').classList.toggle('show', on);
+  document.getElementById('chatArea').scrollTop = document.getElementById('chatArea').scrollHeight;
+  document.getElementById('chatInput').disabled = on;
+  document.getElementById('sendBtn').disabled = on;
+}
+async function sendMsg() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  document.getElementById('sugPanel').style.display = 'none';
+  addMsg('user', text);
+  setTyping(true);
+
+  // Build service catalogue summary for context
+  const catalogue = SERVICES.map(s => `${s.title} (${s.category}): ${s.desc}`).join('\n');
+  const systemPrompt = `You are Neerambh's expert compliance advisor specialising in Indian GST, income tax, company law, and business registrations. 
+
+Our service catalogue:
+${catalogue}
+
+Guidelines:
+- Give practical, jargon-free answers grounded in Indian law (CGST Act, Income Tax Act 1961/2025, Companies Act 2013)
+- Reference specific sections, forms, deadlines, and thresholds where relevant
+- If a service from our catalogue clearly fits the user's need, mention it naturally
+- Keep responses concise and structured; use **bold** for key terms
+- Never invent figures — if unsure, say so and recommend consulting a CA
+- Current date context: mid-2026; new Income Tax Act 2025 is in effect from 1 April 2026`;
+
+  const messages = [
+    { role: 'user', content: systemPrompt + '\n\nUser: ' + text },
+    ...chatHistory.slice(1, -1).map(m => ({
+      role: m.role === 'user' ? 'user' : 'assistant',
+      content: m.text
+    })),
+    { role: 'user', content: text }
+  ];
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: chatHistory
+          .filter(m => m.role === 'user' || m.role === 'assistant')
+          .slice(0, -1)
+          .concat([{ role: 'user', content: text }])
+          .map(m => ({ role: m.role === 'ai' ? 'assistant' : m.role, content: m.text }))
+      })
+    });
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    const reply = data.content?.[0]?.text || 'I was unable to formulate a response. Please try again.';
+    setTyping(false);
+    addMsg('ai', reply);
+  } catch {
+    setTyping(false);
+    addMsg('ai', `**Advisor temporarily unavailable.** Please reach us directly:\n\n📧 neerambh@gmail.com\n📞 +91 85870 25106\n💬 WhatsApp: wa.me/918587025106`);
+  }
+}
+
+/* keyboard shortcut */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal();
+    closeDrawer();
+  }
+});
+</script>
+</body>
+</html>
