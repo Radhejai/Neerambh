@@ -1,14 +1,10 @@
 import express from "express";
 import path from "path";
-import { fileURLToPath } from "url";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
 
 dotenv.config();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 3000;
@@ -185,9 +181,26 @@ async function bootstrap() {
   } else {
     console.log("[Neerambh Gateway] Starting in PRODUCTION mode...");
     const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
+
+    // Serve hashed assets, robots.txt, sitemap.xml etc. directly — no
+    // trailing-slash redirect behaviour, since that would make canonical
+    // sitemap URLs (no trailing slash) 301 instead of returning 200.
+    app.use(express.static(distPath, { index: false, redirect: false }));
+
+    // Prerendered routes (see scripts/prerender.mts) each ship as
+    // dist/<route>/index.html. Serve the exact match for the canonical,
+    // non-trailing-slash URL directly, so crawlers get real per-page HTML
+    // with a 200 — never a redirect.
     app.get("*", (req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
+      const cleanPath = req.path === "/" ? "" : req.path.replace(/\/+$/, "");
+      const prerenderedFile = path.join(distPath, cleanPath, "index.html");
+      res.sendFile(prerenderedFile, (err) => {
+        if (err) {
+          // Unknown route: fall back to the app shell so client-side
+          // routing can render its own not-found UI.
+          res.sendFile(path.join(distPath, "index.html"));
+        }
+      });
     });
   }
 

@@ -1,33 +1,28 @@
 import React, { useState } from 'react';
-import { Crown, Menu, X, Shield, Cpu, Compass, BookOpen, Sparkles } from 'lucide-react';
+import { Link, NavLink } from 'react-router-dom';
+import { Crown, Menu, X, Shield, Cpu, Compass, Sparkles } from 'lucide-react';
 
 interface NavbarProps {
-  currentTab: string;
-  setCurrentTab: (tab: string) => void;
   onOpenAdvisor: () => void;
 }
 
-export default function Navbar({ currentTab, setCurrentTab, onOpenAdvisor }: NavbarProps) {
+export default function Navbar({ onOpenAdvisor }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { id: 'services', label: 'Service Catalog', icon: Compass },
-    { id: 'quote', label: 'Contact Us', icon: Cpu },
-    { id: 'inquiries', label: 'My Inquiries', icon: Shield },
+    { path: '/', label: 'Service Catalog', icon: Compass },
+    { path: '/contact', label: 'Contact Us', icon: Cpu },
+    { path: '/my-inquiries', label: 'My Inquiries', icon: Shield },
   ];
-
-  const handleNavClick = (tabId: string) => {
-    setCurrentTab(tabId);
-    setMobileMenuOpen(false);
-  };
 
   return (
     <nav className="sticky top-0 z-40 w-full border-b border-white/10 bg-[#05070A]/80 backdrop-blur-xl">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
-          <div 
-            onClick={() => handleNavClick('services')} 
+          <Link
+            to="/"
+            onClick={() => setMobileMenuOpen(false)}
             className="flex cursor-pointer items-center space-x-3 group"
           >
             <div className="relative flex h-11 w-11 items-center justify-center rounded-lg border border-gold-500/30 bg-royal-900 royal-glow transition-all duration-300 group-hover:border-gold-500">
@@ -42,26 +37,32 @@ export default function Navbar({ currentTab, setCurrentTab, onOpenAdvisor }: Nav
                 Compliance Sanctuary
               </span>
             </div>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => {
               const Icon = item.icon;
-              const isActive = currentTab === item.id;
               return (
-                <button
-                  key={item.id}
-                  onClick={() => handleNavClick(item.id)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium tracking-wide transition-all duration-300 ${
-                    isActive
-                      ? 'bg-gold-500/10 text-gold-300 border border-gold-500/20 royal-glow'
-                      : 'text-royal-300 hover:text-white hover:bg-royal-900/50'
-                  }`}
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  end={item.path === '/'}
+                  className={({ isActive }) =>
+                    `flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium tracking-wide transition-all duration-300 ${
+                      isActive
+                        ? 'bg-gold-500/10 text-gold-300 border border-gold-500/20 royal-glow'
+                        : 'text-royal-300 hover:text-white hover:bg-royal-900/50'
+                    }`
+                  }
                 >
-                  <Icon className={`h-4 w-4 ${isActive ? 'text-gold-400' : 'text-royal-400'}`} />
-                  <span>{item.label}</span>
-                </button>
+                  {({ isActive }) => (
+                    <>
+                      <Icon className={`h-4 w-4 ${isActive ? 'text-gold-400' : 'text-royal-400'}`} />
+                      <span>{item.label}</span>
+                    </>
+                  )}
+                </NavLink>
               );
             })}
 
@@ -100,20 +101,23 @@ export default function Navbar({ currentTab, setCurrentTab, onOpenAdvisor }: Nav
         <div className="md:hidden border-b border-white/10 bg-[#05070A]/95 backdrop-blur-xl px-2 pt-2 pb-4 space-y-1">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = currentTab === item.id;
             return (
-              <button
-                key={item.id}
-                onClick={() => handleNavClick(item.id)}
-                className={`flex w-full items-center space-x-3 px-4 py-3 rounded-md text-base font-medium tracking-wide transition-all ${
-                  isActive
-                    ? 'bg-gold-500/10 text-gold-300 border border-gold-500/20'
-                    : 'text-royal-300 hover:text-white hover:bg-royal-900'
-                }`}
+              <NavLink
+                key={item.path}
+                to={item.path}
+                end={item.path === '/'}
+                onClick={() => setMobileMenuOpen(false)}
+                className={({ isActive }) =>
+                  `flex w-full items-center space-x-3 px-4 py-3 rounded-md text-base font-medium tracking-wide transition-all ${
+                    isActive
+                      ? 'bg-gold-500/10 text-gold-300 border border-gold-500/20'
+                      : 'text-royal-300 hover:text-white hover:bg-royal-900'
+                  }`
+                }
               >
                 <Icon className="h-5 w-5 text-gold-400" />
                 <span>{item.label}</span>
-              </button>
+              </NavLink>
             );
           })}
           <div className="pt-4 px-4">

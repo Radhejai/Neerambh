@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Service, Inquiry } from '../types';
 import { SERVICES } from '../data';
 import { Calculator, Send, CheckCircle, Shield, Briefcase, FileText, User, Mail, Phone, Building, Info, AlertTriangle, MessageCircle } from 'lucide-react';
@@ -7,10 +8,10 @@ interface QuoteBuilderProps {
   selectedServiceIds: string[];
   onToggleService: (serviceId: string) => void;
   onInquirySubmitted: (newInquiry: Inquiry) => void;
-  setCurrentTab: (tab: string) => void;
 }
 
-export default function QuoteBuilder({ selectedServiceIds, onToggleService, onInquirySubmitted, setCurrentTab }: QuoteBuilderProps) {
+export default function QuoteBuilder({ selectedServiceIds, onToggleService, onInquirySubmitted }: QuoteBuilderProps) {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     clientName: '',
     clientEmail: '',
@@ -208,7 +209,7 @@ export default function QuoteBuilder({ selectedServiceIds, onToggleService, onIn
               <button
                 onClick={() => {
                   setSuccessInquiry(null);
-                  setCurrentTab('inquiries');
+                  navigate('/my-inquiries');
                 }}
                 className="w-full py-2.5 rounded-lg bg-gold-500 text-royal-950 text-xs font-bold uppercase tracking-widest hover:brightness-110 transition-all"
               >

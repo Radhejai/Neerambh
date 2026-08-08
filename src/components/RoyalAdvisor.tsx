@@ -8,10 +8,9 @@ interface RoyalAdvisorProps {
   onClose: () => void;
   selectedServices: string[];
   onSelectServices: (ids: string[]) => void;
-  setCurrentTab: (tab: string) => void;
 }
 
-export default function RoyalAdvisor({ isOpen, onClose, selectedServices, onSelectServices, setCurrentTab }: RoyalAdvisorProps) {
+export default function RoyalAdvisor({ isOpen, onClose, selectedServices, onSelectServices }: RoyalAdvisorProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'welcome',

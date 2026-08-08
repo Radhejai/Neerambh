@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /my-inquiries
+Disallow: /api/
+
+Sitemap: https://neerambh.com/sitemap.xml
