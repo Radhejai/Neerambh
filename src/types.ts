@@ -9,6 +9,7 @@ export interface Service {
   timeline: string;
   governmentFees: string;
   documentsRequired: string[];
+  faqs?: { q: string; a: string }[];
   benefits: string[];
 }
 

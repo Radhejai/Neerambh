@@ -12,17 +12,31 @@ export const SERVICES: Service[] = [
     timeline: '7-10 Business Days',
     governmentFees: 'Based on authorized share capital and state',
     documentsRequired: [
-      'PAN Card of all Directors/Partners',
-      'Aadhaar Card or Passport',
-      'Proof of registered office (Electricity bill/Rent agreement)',
-      'Bank statement (recent copy with name and address)',
-      'Passport-sized photographs of promoters'
+      'PAN Card — All proposed directors and shareholders',
+      'Aadhaar / Voter ID / Passport — Any one valid identity proof per director / shareholder',
+      'Address Proof — Bank statement / utility bill (not older than 2 months)',
+      'Passport-size Photograph — Recent colour photo of each director',
+      'Registered Office Proof — Electricity bill + rent agreement / NOC if rented',
+      'NOC from Owner — No-objection letter from property owner for using address',
+      'MOA & AOA — Memorandum and Articles of Association (drafted & e-filed)',
+      'DSC — Class-2 / Class-3 Digital Signature Certificate for each director',
+      'DIN — Director Identification Number (applied via SPICe+ form)'
     ],
     benefits: [
       'Creates a distinct, legally recognized corporate persona',
       'Limits owner liability to protect personal fortunes',
       'Enables seamless equity fundraising and angel investments',
       'Establishes immediate trust with clients and global suppliers'
+    ],
+    faqs: [
+      { q: 'Why should I register a company instead of a proprietorship?', a: 'A company has separate legal existence — personal assets are protected from business liabilities.' },
+      { q: 'What is the use of company registration?', a: 'It enables you to open a corporate bank account, raise equity funding, enter contracts, and build investor credibility.' },
+      { q: 'Who can register a Private Limited Company?', a: 'Any two or more individuals (Indian or foreign) aged 18+, with a valid PAN and address proof.' },
+      { q: 'What is a DIN and who needs it?', a: 'Director Identification Number — every proposed director must obtain it before incorporation via SPICe+ or DIR-3.' },
+      { q: 'How long does incorporation take?', a: 'Typically 7–10 working days after submission of SPICe+ form and documents on MCA21 portal.' },
+      { q: 'What is the minimum capital required?', a: 'No minimum paid-up capital is prescribed for Pvt Ltd companies. Even ₹1 is technically valid.' },
+      { q: 'Do I need to file annual returns after incorporation?', a: 'Yes — AOC-4 (financial statements) and MGT-7/7A (annual return) are mandatory every year with the MCA.' },
+      { q: 'Can a foreign national be a director in an Indian company?', a: 'Yes, but at least one director must be an Indian resident (182+ days in India in the previous year).' }
     ]
   },
   {
@@ -36,17 +50,30 @@ export const SERVICES: Service[] = [
     timeline: '3-5 Business Days',
     governmentFees: 'Nil (Standard registration is free of govt fees)',
     documentsRequired: [
-      'PAN Card of Business / Promoter',
-      'Proof of Business Registration (Certificate of Incorporation)',
-      'Registered Address Proof (Utility bill / Rent Agreement)',
-      'Authorized Signatory Appointment Letter',
-      'Bank Account Passbook or Cancelled Cheque'
+      'PAN Card — Proprietor / Partners / Directors',
+      'Aadhaar Card — Authorised signatory (mandatory for OTP-based e-KYC)',
+      'Photograph — Passport-size photo of proprietor / partners / directors',
+      'Constitution Proof — Partnership deed / MOA + AOA / LLP agreement',
+      'Registered Office Proof — Electricity bill / rent agreement + NOC from owner',
+      'Bank Account Proof — Cancelled cheque or bank statement',
+      'Digital Signature — Class-2 DSC for companies & LLPs (mandatory)',
+      'Authorisation Letter — Board resolution / POA if authorised signatory ≠ promoter'
     ],
     benefits: [
       'Enables legitimate inter-state transactions and e-commerce listing',
       'Allows you to claim Input Tax Credit (ITC) on all business purchases',
       'Enhances competitive bidding power in large corporate tenders',
       'Avoids substantial government penalties for non-compliance'
+    ],
+    faqs: [
+      { q: 'Why do I need GST Registration?', a: 'It is legally mandatory above the threshold. Without it you cannot collect GST, claim Input Tax Credit, or do inter-state trade.' },
+      { q: 'What is the use of GSTIN?', a: 'Your 15-digit GSTIN uniquely identifies your business on every invoice and lets customers claim ITC on purchases from you.' },
+      { q: 'Who can apply for GST Registration?', a: 'Any individual, firm, company, LLP, trust, or society engaged in supply of goods or services in India.' },
+      { q: 'Is GST registration free?', a: 'Yes. Registration on the GST portal (www.gst.gov.in) is free of cost.' },
+      { q: 'How long does registration take?', a: 'Usually 3–7 working days after document submission, subject to officer approval.' },
+      { q: 'What is the penalty for not registering?', a: '10% of tax due (minimum ₹10,000) or 100% of tax if found deliberately suppressed.' },
+      { q: 'Can a composition dealer issue a tax invoice?', a: 'No. Composition dealers issue a Bill of Supply; they cannot charge or collect GST.' },
+      { q: 'When does GST registration get cancelled?', a: 'If turnover falls below the threshold, the business is closed, or the taxpayer applies for voluntary cancellation.' }
     ]
   },
   {
@@ -106,17 +133,29 @@ export const SERVICES: Service[] = [
     timeline: '1-2 Business Days',
     governmentFees: 'Nil (Registration is free of government charges)',
     documentsRequired: [
-      'Aadhaar Card of the Proprietor / Director',
-      'PAN Card of the Business Entity',
-      'Bank Account Number and IFSC Code',
-      'Investment in Plant & Machinery figures',
-      'Annual business turnover figures'
+      'Aadhaar Card — Proprietor / managing partner / authorised signatory (mandatory)',
+      'PAN Card — Business PAN (mandatory for companies / LLPs; optional for others)',
+      'GSTIN — If registered under GST (auto-verified from GST portal)',
+      'Business Name & Address — Full name and address of enterprise',
+      'Bank Account Details — Account number and IFSC — for subsidy disbursal',
+      'NIC Activity Code — National Industrial Classification code for your activity',
+      'Investment & Turnover Data — Self-declared; auto-verified from IT returns for existing businesses'
     ],
     benefits: [
       'Grants eligibility for collateral-free bank loans (CGTMSE)',
       'Enforces legal payment protections (interest on delayed payments)',
       'Secures up to 50% subsidy on trademark, patent, and barcode registration',
       'Provides concession on electricity bills and government tender security deposits'
+    ],
+    faqs: [
+      { q: 'Why do I need MSME / Udyam Registration?', a: 'It qualifies you for priority-sector bank loans, lower interest rates, government subsidies, and delayed-payment protections.' },
+      { q: 'What is the use of an Udyam certificate?', a: 'It acts as proof of MSME status for availing schemes like CGTMSE (collateral-free loans), PMEGP, and GeM portal registration.' },
+      { q: 'Who can apply for Udyam Registration?', a: 'Any manufacturing or service business in India meeting the investment and turnover thresholds, regardless of legal form.' },
+      { q: 'Is Udyam Registration free?', a: 'Yes, completely free on the official portal udyamregistration.gov.in. No fees are charged.' },
+      { q: 'Is Udyam different from Udyog Aadhaar?', a: 'Yes. Udyog Aadhaar has been replaced by Udyam Registration (from July 2020). Existing UAM holders had to re-register.' },
+      { q: 'How long is the Udyam certificate valid?', a: 'It has no expiry date. However, you must update details if turnover/investment crosses thresholds.' },
+      { q: 'Can an MSME file cases under MSMED Act for delayed payments?', a: 'Yes. Buyers must pay MSME suppliers within 45 days; failing which they owe compound interest at 3× the bank rate.' },
+      { q: 'Can a company with GST registration get Udyam?', a: 'Yes. GST and PAN data are auto-fetched during registration for verification.' }
     ]
   },
   {
@@ -130,16 +169,29 @@ export const SERVICES: Service[] = [
     timeline: '2-4 Business Days',
     governmentFees: 'DGFT statutory processing fee included',
     documentsRequired: [
-      'PAN Card of the Entity or Proprietor',
-      'Cancelled Cheque from current business account',
-      'Address proof of the business premises',
-      'Digital Signature Certificate (if required)'
+      'PAN Card — Business PAN (or individual PAN for proprietor)',
+      'Aadhaar / Voter ID / Passport — Identity proof of applicant',
+      'Incorporation Certificate / Partnership Deed — Proof of business constitution',
+      'Address Proof of Business — Electricity bill / rent agreement / sale deed',
+      'Cancelled Cheque / Bank Certificate — Bank account in business name — for FIRC and remittance',
+      'Digital Signature / OTP — Aadhaar-based OTP or DSC for e-signing the application',
+      'Photograph — Passport-size photo of applicant'
     ],
     benefits: [
       'Unlocks global trade pathways for goods and service delivery',
       'Never expires—lifetime validity with absolutely zero renewal burdens',
       'Qualifies you for government export incentives and custom duty waivers',
       'Required by international banking channels to process foreign currency'
+    ],
+    faqs: [
+      { q: 'Why is IEC Code mandatory?', a: 'Indian Customs and banks require IEC for clearing import/export shipments and for receiving or making foreign currency payments.' },
+      { q: 'What is the use of an IEC Code?', a: 'It enables customs clearance, DGFT scheme benefits (Advance Authorisation, MEIS/RODTEP), and foreign remittance through banks.' },
+      { q: 'Who needs to obtain an IEC?', a: 'Anyone — individual or business — engaged in import or export of goods or services. Exemptions apply to personal use and government entities.' },
+      { q: 'Is IEC registration free?', a: 'Yes. The government fee is ₹500 (payable online on the DGFT portal). No renewal fee.' },
+      { q: 'Does IEC need to be renewed annually?', a: 'No renewal is required. However, you must update the IEC annually by filing a modification (even with no changes) to keep it active.' },
+      { q: 'Can one business have multiple IECs?', a: 'No. Only one IEC is issued per PAN. It covers all branches and divisions of the entity.' },
+      { q: 'How long does IEC registration take?', a: 'Usually issued within 1–2 working days after submission on the DGFT portal.' },
+      { q: 'What happens if I export without IEC?', a: 'Shipments will be blocked at customs. Bank will not process foreign inward/outward remittances without a valid IEC.' }
     ]
   },
   {

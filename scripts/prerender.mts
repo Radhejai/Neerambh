@@ -109,6 +109,25 @@ function renderRoute(route: RouteMeta): string {
     html = html.replace('</title>', '</title>\n  <meta name="robots" content="noindex, nofollow" />');
   }
 
+  // FAQPage structured data — only for routes with real FAQ content, so
+  // Google can surface rich FAQ snippets for these service pages.
+  const svc = SERVICES.find((s) => `/services/${s.slug}` === route.path);
+  if (svc && svc.faqs && svc.faqs.length > 0) {
+    const faqSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: svc.faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    };
+    html = html.replace(
+      '</head>',
+      `  <script type="application/ld+json">${JSON.stringify(faqSchema)}</script>\n</head>`
+    );
+  }
+
   html = html.replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`);
 
   return html;

@@ -104,6 +104,23 @@ export default function ServiceDetailPage({ onAddToQuote }: ServiceDetailPagePro
           </div>
         </section>
 
+        {/* FAQ */}
+        {service.faqs && service.faqs.length > 0 && (
+          <section>
+            <h2 className="text-[10px] uppercase tracking-widest text-gold-500 font-bold mb-4">
+              Frequently Asked Questions
+            </h2>
+            <div className="space-y-4">
+              {service.faqs.map((faq, idx) => (
+                <div key={idx} className="border-b border-royal-800/60 pb-4 last:border-0">
+                  <h3 className="text-sm font-semibold text-white mb-1.5">{faq.q}</h3>
+                  <p className="text-xs text-royal-300 font-light leading-relaxed">{faq.a}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* CTAs */}
         <div className="border-t border-royal-800 pt-6 flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
           <button
