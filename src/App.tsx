@@ -6,6 +6,8 @@ import RoyalAdvisor from './components/RoyalAdvisor';
 import QuoteBuilder from './components/QuoteBuilder';
 import InquiryPortal from './components/InquiryPortal';
 import ServiceDetailPage from './pages/ServiceDetailPage';
+import BlogListPage from './pages/BlogListPage';
+import BlogPostPage from './pages/BlogPostPage';
 import { SERVICES } from './data';
 import { Inquiry } from './types';
 import { Award, Sparkles, Building, Landmark, Percent, ClipboardCheck, Scale, Shield } from 'lucide-react';
@@ -196,6 +198,22 @@ export default function App() {
             </main>
           }
         />
+        <Route
+          path="/blog"
+          element={
+            <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+              <BlogListPage />
+            </main>
+          }
+        />
+        <Route
+          path="/blog/:slug"
+          element={
+            <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+              <BlogPostPage />
+            </main>
+          }
+        />
         {/* Private, user-specific view — deliberately excluded from the sitemap and
             marked noindex; it shows the submitted-inquiries ledger, not public content. */}
         <Route
@@ -243,6 +261,10 @@ export default function App() {
           <div className="flex justify-center space-x-6 pt-2 text-royal-400">
             <Link to="/" className="hover:text-gold-400 transition-colors">
               Catalog
+            </Link>
+            <span>&bull;</span>
+            <Link to="/blog" className="hover:text-gold-400 transition-colors">
+              Blog
             </Link>
             <span>&bull;</span>
             <Link to="/contact" className="hover:text-gold-400 transition-colors">

@@ -17,6 +17,7 @@ import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 import App from '../src/App';
 import { SERVICES } from '../src/data';
+import { BLOG_POSTS } from '../src/blogData';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distDir = path.resolve(__dirname, '..', 'dist');
@@ -54,6 +55,16 @@ const routes: RouteMeta[] = [
     path: `/services/${s.slug}`,
     title: `${s.title} | Neerambh Compliance Advisory`,
     description: s.description,
+  })),
+  {
+    path: '/blog',
+    title: 'Blog | Neerambh Compliance Advisory',
+    description: 'Practical guides on GST, incorporation, and compliance for growing Indian businesses.',
+  },
+  ...BLOG_POSTS.map((p) => ({
+    path: `/blog/${p.slug}`,
+    title: `${p.title} | Neerambh Blog`,
+    description: p.excerpt,
   })),
 ];
 
@@ -125,6 +136,25 @@ function renderRoute(route: RouteMeta): string {
     html = html.replace(
       '</head>',
       `  <script type="application/ld+json">${JSON.stringify(faqSchema)}</script>\n</head>`
+    );
+  }
+
+  // Article structured data for blog posts.
+  const post = BLOG_POSTS.find((p) => `/blog/${p.slug}` === route.path);
+  if (post) {
+    const articleSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: post.title,
+      description: post.excerpt,
+      datePublished: post.publishedAt,
+      author: { '@type': 'Organization', name: 'Neerambh' },
+      publisher: { '@type': 'Organization', name: 'Neerambh' },
+      mainEntityOfPage: canonicalUrl,
+    };
+    html = html.replace(
+      '</head>',
+      `  <script type="application/ld+json">${JSON.stringify(articleSchema)}</script>\n</head>`
     );
   }
 

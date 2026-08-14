@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Crown, Menu, X, Shield, Cpu, Compass, Sparkles } from 'lucide-react';
+import { Crown, Menu, X, Shield, Cpu, Compass, Sparkles, BookOpen } from 'lucide-react';
 
 interface NavbarProps {
   onOpenAdvisor: () => void;
@@ -11,6 +11,7 @@ export default function Navbar({ onOpenAdvisor }: NavbarProps) {
 
   const navItems = [
     { path: '/', label: 'Service Catalog', icon: Compass },
+    { path: '/blog', label: 'Blog', icon: BookOpen },
     { path: '/contact', label: 'Contact Us', icon: Cpu },
     { path: '/my-inquiries', label: 'My Inquiries', icon: Shield },
   ];
