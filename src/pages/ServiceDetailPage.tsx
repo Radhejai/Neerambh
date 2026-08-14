@@ -20,7 +20,7 @@ export default function ServiceDetailPage({ onAddToQuote }: ServiceDetailPagePro
           We couldn't find the compliance service you're looking for.
         </p>
         <Link
-          to="/"
+          to="/#services"
           className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-lg bg-gold-500 text-royal-950 text-xs font-bold uppercase tracking-widest hover:brightness-110 transition-all"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
@@ -34,7 +34,7 @@ export default function ServiceDetailPage({ onAddToQuote }: ServiceDetailPagePro
     <article className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="mb-6 text-xs text-royal-400 flex items-center space-x-2">
-        <Link to="/" className="hover:text-gold-400 transition-colors">Service Catalog</Link>
+        <Link to="/#services" className="hover:text-gold-400 transition-colors">Service Catalog</Link>
         <span>/</span>
         <span className="text-royal-200">{service.title}</span>
       </nav>
@@ -126,14 +126,14 @@ export default function ServiceDetailPage({ onAddToQuote }: ServiceDetailPagePro
           <button
             onClick={() => {
               onAddToQuote(service.id);
-              navigate('/contact');
+              navigate('/#contact');
             }}
             className="flex-1 py-3 rounded-lg bg-gold-500 text-royal-950 hover:brightness-110 text-xs font-bold uppercase tracking-widest transition-all text-center flex items-center justify-center space-x-2"
           >
             <span>Inquire About This Service</span>
           </button>
           <Link
-            to="/"
+            to="/#services"
             className="px-6 py-3 rounded-lg border border-royal-700 text-royal-200 hover:text-white text-xs font-semibold uppercase tracking-widest transition-all hover:bg-royal-900/50 text-center"
           >
             Back to Catalog

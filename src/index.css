@@ -25,9 +25,20 @@
   --color-royal-500: #475569;
   --color-royal-600: #334155;
   --color-royal-700: #1e293b;
-  --color-royal-800: #0C0F16;
-  --color-royal-900: #0C0F16;
-  --color-royal-950: #05070A;
+  --color-royal-800: #10101c;
+  --color-royal-900: #0d0c17;
+  --color-royal-950: #060510;
+
+  --color-purple-50: #f5f0fd;
+  --color-purple-100: #e7d9fa;
+  --color-purple-200: #c9aef4;
+  --color-purple-300: #a97ded;
+  --color-purple-400: #8f57e3;
+  --color-purple-500: #7738d8;
+  --color-purple-600: #5f2ab0;
+  --color-purple-700: #491f88;
+  --color-purple-800: #331660;
+  --color-purple-900: #1e0d3a;
 }
 
 /* Custom glow effects and styling matching the Frosted Glass theme */
@@ -39,6 +50,10 @@
   box-shadow: 0 0 35px rgba(197, 160, 89, 0.25);
 }
 
+.purple-glow {
+  box-shadow: 0 0 30px rgba(119, 56, 216, 0.2);
+}
+
 .royal-text-gradient {
   background: linear-gradient(135deg, #fff 30%, #dec27b 70%, #C5A059 100%);
   -webkit-background-clip: text;
@@ -47,6 +62,12 @@
 
 .gold-text-gradient {
   background: linear-gradient(135deg, #dec27b 0%, #C5A059 50%, #a5813f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.purple-gold-gradient {
+  background: linear-gradient(135deg, #c9aef4 0%, #dec27b 55%, #C5A059 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

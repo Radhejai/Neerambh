@@ -1,135 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate, Link } from 'react-router-dom';
+import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import ServiceCard from './components/ServiceCard';
 import RoyalAdvisor from './components/RoyalAdvisor';
-import QuoteBuilder from './components/QuoteBuilder';
 import InquiryPortal from './components/InquiryPortal';
+import HomePage from './pages/HomePage';
 import ServiceDetailPage from './pages/ServiceDetailPage';
 import BlogListPage from './pages/BlogListPage';
 import BlogPostPage from './pages/BlogPostPage';
-import { SERVICES } from './data';
 import { Inquiry } from './types';
-import { Award, Sparkles, Building, Landmark, Percent, ClipboardCheck, Scale, Shield } from 'lucide-react';
+import { Shield } from 'lucide-react';
 
-function ServicesCatalogPage({
-  activeCategoryFilter,
-  setActiveCategoryFilter,
-}: {
-  activeCategoryFilter: string;
-  setActiveCategoryFilter: (id: string) => void;
-}) {
-  const categories = [
-    { id: 'all', label: 'All Services', icon: Landmark },
-    { id: 'incorporation', label: 'Incorporation', icon: Building },
-    { id: 'tax', label: 'Taxation & Filing', icon: Percent },
-    { id: 'audit', label: 'Audit & Assurance', icon: ClipboardCheck },
-    { id: 'compliance', label: 'Corporate Compliance', icon: Scale },
-    { id: 'registration', label: 'Registrations', icon: Award },
-  ];
+/** Scrolls to the #hash section on the homepage after navigation (e.g. a
+ * "Services" nav click while on a different page routes to "/#services"
+ * and this handles the actual scroll once the homepage has rendered).
+ * Plain navigation to "/" with no hash scrolls to the top instead. */
+function ScrollToHash() {
+  const { pathname, hash } = useLocation();
 
-  const filteredServices =
-    activeCategoryFilter === 'all' ? SERVICES : SERVICES.filter(s => s.category === activeCategoryFilter);
+  useEffect(() => {
+    if (hash) {
+      // Wait a tick for the target route's content to mount.
+      const id = hash.replace('#', '');
+      requestAnimationFrame(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    } else if (pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [pathname, hash]);
 
-  return (
-    <>
-      <header className="mx-auto max-w-7xl px-4 pt-12 pb-6 sm:px-6 lg:px-8">
-        <div className="relative rounded-2xl border border-white/10 bg-white/5 p-8 md:p-12 backdrop-blur-xl overflow-hidden royal-glow">
-          <div className="absolute top-0 right-0 h-48 w-48 bg-gold-500/5 blur-3xl rounded-full" />
-          <div className="absolute -bottom-8 -left-8 h-36 w-36 bg-indigo-500/5 blur-2xl rounded-full" />
-
-          <div className="relative max-w-3xl space-y-6">
-            <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full border border-gold-500/20 bg-gold-500/5 text-xs text-gold-400 font-semibold uppercase tracking-widest">
-              <Shield className="h-3.5 w-3.5" />
-              <span>Premier Compliance Platform</span>
-            </div>
-
-            <h1 className="font-serif text-3xl md:text-5xl font-extrabold tracking-wide text-white leading-tight">
-              Architecting Secure <br className="hidden md:block" />
-              <span className="gold-text-gradient">Business Futures</span>
-            </h1>
-
-            <p className="text-royal-300 text-sm md:text-base font-light leading-relaxed max-w-2xl">
-              Neerambh serves global SMEs, startups, and high-net-worth directors with immaculate corporate
-              registrations, strict direct/indirect tax strategy, and flawless statutory audits. Fully digitized,
-              futuristic, and absolute.
-            </p>
-
-            <div className="pt-4 flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
-              <Link
-                to="/contact"
-                className="px-6 py-3 rounded-lg border border-royal-700 hover:border-gold-500/30 text-royal-200 hover:text-white font-medium text-xs uppercase tracking-widest transition-all bg-royal-950/40 inline-flex items-center justify-center"
-              >
-                Contact Advisors
-              </Link>
-            </div>
-          </div>
-
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 border-t border-royal-800/80 pt-8 text-center md:text-left">
-            <div>
-              <span className="block text-2xl font-bold font-serif text-white">₹26.4B+</span>
-              <span className="text-[10px] uppercase tracking-widest text-royal-400 font-medium">Assets Under Audit</span>
-            </div>
-            <div>
-              <span className="block text-2xl font-bold font-serif text-white">15,000+</span>
-              <span className="text-[10px] uppercase tracking-widest text-royal-400 font-medium">Entities Registered</span>
-            </div>
-            <div>
-              <span className="block text-2xl font-bold font-serif text-white">100%</span>
-              <span className="text-[10px] uppercase tracking-widest text-royal-400 font-medium">Filing Integrity Rate</span>
-            </div>
-            <div>
-              <span className="block text-2xl font-bold font-serif text-white">&lt;0.01%</span>
-              <span className="text-[10px] uppercase tracking-widest text-royal-400 font-medium">Compliance Risk</span>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="space-y-8">
-          <div className="flex flex-wrap gap-2 pb-4 border-b border-royal-800/40">
-            {categories.map(cat => {
-              const Icon = cat.icon;
-              const isSelected = activeCategoryFilter === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveCategoryFilter(cat.id)}
-                  className={`flex items-center space-x-2 px-4 py-2.5 rounded-full text-xs font-semibold tracking-wide border transition-all duration-300 ${
-                    isSelected
-                      ? 'bg-gold-500 text-royal-950 border-gold-500 font-bold royal-glow-sm'
-                      : 'bg-royal-900/30 text-royal-300 border-royal-800 hover:border-royal-700 hover:text-white'
-                  }`}
-                >
-                  <Icon className="h-3.5 w-3.5" />
-                  <span>{cat.label}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredServices.map(service => (
-              <ServiceCardLink key={service.id} service={service} />
-            ))}
-          </div>
-        </div>
-      </main>
-    </>
-  );
-}
-
-function ServiceCardLink({ service }: { service: (typeof SERVICES)[number]; key?: string }) {
-  const navigate = useNavigate();
-  return <ServiceCard service={service} onViewDetails={() => navigate(`/services/${service.slug}`)} />;
+  return null;
 }
 
 export default function App() {
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [advisorOpen, setAdvisorOpen] = useState(false);
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
-  const [activeCategoryFilter, setActiveCategoryFilter] = useState('all');
 
   const fetchInquiries = async () => {
     try {
@@ -162,19 +68,21 @@ export default function App() {
   return (
     <div className="min-h-screen bg-royal-950 font-sans text-royal-100 antialiased selection:bg-gold-500/30 selection:text-white">
       <div className="fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] -mr-40 -mt-40" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] -mr-40 -mt-40" />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#C5A059]/10 rounded-full blur-[120px] -ml-40 -mb-40" />
       </div>
 
       <Navbar onOpenAdvisor={() => setAdvisorOpen(true)} />
+      <ScrollToHash />
 
       <Routes>
         <Route
           path="/"
           element={
-            <ServicesCatalogPage
-              activeCategoryFilter={activeCategoryFilter}
-              setActiveCategoryFilter={setActiveCategoryFilter}
+            <HomePage
+              selectedServices={selectedServices}
+              onToggleService={handleToggleServiceInQuote}
+              onInquirySubmitted={handleInquirySubmitted}
             />
           }
         />
@@ -186,18 +94,9 @@ export default function App() {
             </main>
           }
         />
-        <Route
-          path="/contact"
-          element={
-            <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-              <QuoteBuilder
-                selectedServiceIds={selectedServices}
-                onToggleService={handleToggleServiceInQuote}
-                onInquirySubmitted={handleInquirySubmitted}
-              />
-            </main>
-          }
-        />
+        {/* The old standalone /contact page is now the "Contact" section on
+            the homepage — redirect so bookmarks/links keep working. */}
+        <Route path="/contact" element={<Navigate to="/#contact" replace />} />
         <Route
           path="/blog"
           element={
@@ -258,17 +157,25 @@ export default function App() {
             protected and strictly confidential.
           </p>
           <p className="text-[10px] text-gold-500/60 font-mono tracking-wider">Created by Radhejai</p>
-          <div className="flex justify-center space-x-6 pt-2 text-royal-400">
-            <Link to="/" className="hover:text-gold-400 transition-colors">
-              Catalog
+          <div className="flex justify-center flex-wrap gap-x-6 gap-y-2 pt-2 text-royal-400">
+            <Link to="/#home" className="hover:text-gold-400 transition-colors">
+              Home
+            </Link>
+            <span>&bull;</span>
+            <Link to="/#services" className="hover:text-gold-400 transition-colors">
+              Services
+            </Link>
+            <span>&bull;</span>
+            <Link to="/#about" className="hover:text-gold-400 transition-colors">
+              About
             </Link>
             <span>&bull;</span>
             <Link to="/blog" className="hover:text-gold-400 transition-colors">
               Blog
             </Link>
             <span>&bull;</span>
-            <Link to="/contact" className="hover:text-gold-400 transition-colors">
-              Contact Us
+            <Link to="/#contact" className="hover:text-gold-400 transition-colors">
+              Contact
             </Link>
             <span>&bull;</span>
             <Link to="/my-inquiries" className="hover:text-gold-400 transition-colors">

@@ -37,13 +37,7 @@ const routes: RouteMeta[] = [
     path: '/',
     title: 'Neerambh — GST, Tax & Corporate Compliance Advisory',
     description:
-      'Neerambh is a finance and tax advisory firm handling GST compliance, incorporation, income tax, TDS, statutory audits and accounting for growing Indian businesses.',
-  },
-  {
-    path: '/contact',
-    title: 'Contact Us | Neerambh Compliance Advisors',
-    description:
-      'Get in touch with Neerambh for GST, tax, incorporation, and audit compliance advisory. Submit an inquiry and our advisors will respond with a tailored compliance plan.',
+      'Neerambh is a finance and tax advisory firm handling GST compliance, incorporation, income tax, TDS, statutory audits and accounting for growing Indian businesses. Services, about, and contact — all on one page.',
   },
   {
     path: '/my-inquiries',

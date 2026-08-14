@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Crown, Menu, X, Shield, Cpu, Compass, Sparkles, BookOpen } from 'lucide-react';
+import { Crown, Menu, X, Shield, Cpu, Compass, Sparkles, BookOpen, Home, Info } from 'lucide-react';
 
 interface NavbarProps {
   onOpenAdvisor: () => void;
@@ -9,10 +9,14 @@ interface NavbarProps {
 export default function Navbar({ onOpenAdvisor }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const navItems = [
-    { path: '/', label: 'Service Catalog', icon: Compass },
+  const sectionLinks = [
+    { path: '/#home', label: 'Home', icon: Home },
+    { path: '/#services', label: 'Services', icon: Compass },
+    { path: '/#about', label: 'About', icon: Info },
+    { path: '/#contact', label: 'Contact', icon: Cpu },
+  ];
+  const pageLinks = [
     { path: '/blog', label: 'Blog', icon: BookOpen },
-    { path: '/contact', label: 'Contact Us', icon: Cpu },
     { path: '/my-inquiries', label: 'My Inquiries', icon: Shield },
   ];
 
@@ -22,7 +26,7 @@ export default function Navbar({ onOpenAdvisor }: NavbarProps) {
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
           <Link
-            to="/"
+            to="/#home"
             onClick={() => setMobileMenuOpen(false)}
             className="flex cursor-pointer items-center space-x-3 group"
           >
@@ -35,31 +39,46 @@ export default function Navbar({ onOpenAdvisor }: NavbarProps) {
                 NEERAMBH
               </span>
               <span className="font-sans text-[9px] uppercase tracking-[0.25em] text-gold-400 block -mt-1">
-                Compliance Sanctuary
+                Tax &amp; Compliance Advisory
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
-            {navItems.map((item) => {
+            {sectionLinks.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className="flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium tracking-wide transition-all duration-300 text-royal-300 hover:text-white hover:bg-royal-900/50"
+                >
+                  <Icon className="h-4 w-4 text-royal-400" />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+
+            <span className="h-6 w-px bg-royal-800 mx-2" />
+
+            {pageLinks.map((item) => {
               const Icon = item.icon;
               return (
                 <NavLink
                   key={item.path}
                   to={item.path}
-                  end={item.path === '/'}
                   className={({ isActive }) =>
                     `flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium tracking-wide transition-all duration-300 ${
                       isActive
-                        ? 'bg-gold-500/10 text-gold-300 border border-gold-500/20 royal-glow'
+                        ? 'bg-purple-500/10 text-purple-200 border border-purple-400/20 purple-glow'
                         : 'text-royal-300 hover:text-white hover:bg-royal-900/50'
                     }`
                   }
                 >
                   {({ isActive }) => (
                     <>
-                      <Icon className={`h-4 w-4 ${isActive ? 'text-gold-400' : 'text-royal-400'}`} />
+                      <Icon className={`h-4 w-4 ${isActive ? 'text-purple-300' : 'text-royal-400'}`} />
                       <span>{item.label}</span>
                     </>
                   )}
@@ -100,23 +119,37 @@ export default function Navbar({ onOpenAdvisor }: NavbarProps) {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden border-b border-white/10 bg-[#05070A]/95 backdrop-blur-xl px-2 pt-2 pb-4 space-y-1">
-          {navItems.map((item) => {
+          {sectionLinks.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex w-full items-center space-x-3 px-4 py-3 rounded-md text-base font-medium tracking-wide transition-all text-royal-300 hover:text-white hover:bg-royal-900"
+              >
+                <Icon className="h-5 w-5 text-gold-400" />
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
+          <div className="border-t border-royal-800 my-2" />
+          {pageLinks.map((item) => {
             const Icon = item.icon;
             return (
               <NavLink
                 key={item.path}
                 to={item.path}
-                end={item.path === '/'}
                 onClick={() => setMobileMenuOpen(false)}
                 className={({ isActive }) =>
                   `flex w-full items-center space-x-3 px-4 py-3 rounded-md text-base font-medium tracking-wide transition-all ${
                     isActive
-                      ? 'bg-gold-500/10 text-gold-300 border border-gold-500/20'
+                      ? 'bg-purple-500/10 text-purple-200 border border-purple-400/20'
                       : 'text-royal-300 hover:text-white hover:bg-royal-900'
                   }`
                 }
               >
-                <Icon className="h-5 w-5 text-gold-400" />
+                <Icon className="h-5 w-5 text-purple-300" />
                 <span>{item.label}</span>
               </NavLink>
             );

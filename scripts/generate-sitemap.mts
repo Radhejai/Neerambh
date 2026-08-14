@@ -15,7 +15,6 @@ const SITE_URL = 'https://neerambh.com';
 
 const publicPaths = [
   '/',
-  '/contact',
   ...SERVICES.map((s) => `/services/${s.slug}`),
   '/blog',
   ...BLOG_POSTS.map((p) => `/blog/${p.slug}`),
