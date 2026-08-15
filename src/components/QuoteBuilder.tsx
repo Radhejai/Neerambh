@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Service, Inquiry } from '../types';
 import { SERVICES } from '../data';
-import { Calculator, Send, CheckCircle, Shield, Briefcase, FileText, User, Mail, Phone, Building, Info, AlertTriangle, MessageCircle } from 'lucide-react';
+import { Calculator, Send, CheckCircle, Shield, Briefcase, FileText, User, Mail, Phone, Building, Info, AlertTriangle } from 'lucide-react';
 
 interface QuoteBuilderProps {
   selectedServiceIds: string[];
   onToggleService: (serviceId: string) => void;
-  onInquirySubmitted: (newInquiry: Inquiry) => void;
+  onInquirySubmitted?: (newInquiry: Inquiry) => void;
 }
 
 export default function QuoteBuilder({ selectedServiceIds, onToggleService, onInquirySubmitted }: QuoteBuilderProps) {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     clientName: '',
     clientEmail: '',
@@ -62,7 +60,7 @@ export default function QuoteBuilder({ selectedServiceIds, onToggleService, onIn
 
       const data = await response.json();
       setSuccessInquiry(data);
-      onInquirySubmitted(data);
+      onInquirySubmitted?.(data);
       
       // Clear form on success
       setFormData({
@@ -98,13 +96,13 @@ export default function QuoteBuilder({ selectedServiceIds, onToggleService, onIn
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl royal-glow space-y-6">
           <div className="flex items-center space-x-3 border-b border-royal-800/60 pb-3">
             <Phone className="h-5 w-5 text-gold-500" />
-            <h2 className="font-serif text-lg font-bold text-white tracking-wider">Direct Contact Channels</h2>
+            <h2 className="font-serif text-lg font-bold text-white tracking-wider">Contact Us</h2>
           </div>
           <p className="text-royal-300 text-sm font-light leading-relaxed">
-            Reach out to our compliance chancellery directly through any of our secure channels below. Our team is available for urgent corporate setups, taxation reviews, and registrations.
+            Reach us directly by email, or send a message using the form below and we'll get back to you.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             {/* Email Channel */}
             <a 
               href="mailto:neerambh@gmail.com"
@@ -115,20 +113,6 @@ export default function QuoteBuilder({ selectedServiceIds, onToggleService, onIn
               </div>
               <span className="text-[10px] uppercase tracking-widest text-royal-400 font-bold">Email Us</span>
               <span className="text-xs text-white font-medium mt-1 truncate max-w-full">neerambh@gmail.com</span>
-            </a>
-
-            {/* WhatsApp Channel */}
-            <a 
-              href="https://wa.me/918587025106"
-              target="_blank"
-              rel="noreferrer"
-              className="flex flex-col items-center justify-center p-4 rounded-xl border border-royal-800 bg-royal-950/40 hover:border-gold-500/30 hover:bg-royal-900/40 transition-all text-center group cursor-pointer"
-            >
-              <div className="h-10 w-10 rounded-full bg-emerald-500/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                <MessageCircle className="h-5 w-5 text-emerald-400" />
-              </div>
-              <span className="text-[10px] uppercase tracking-widest text-royal-400 font-bold">WhatsApp</span>
-              <span className="text-xs text-white font-medium mt-1">Connect Directly</span>
             </a>
           </div>
         </div>
@@ -167,7 +151,7 @@ export default function QuoteBuilder({ selectedServiceIds, onToggleService, onIn
             <div className="border-t border-royal-800/80 pt-4 mt-6 space-y-2">
               <div className="flex justify-between text-sm text-royal-400">
                 <span>Selected Services</span>
-                <span className="font-mono">{selectedServices.length} Service Modules</span>
+                <span className="font-mono">{selectedServices.length} Services</span>
               </div>
               <div className="flex justify-between text-sm text-royal-400">
                 <span>Estimated Turnaround</span>
@@ -194,32 +178,23 @@ export default function QuoteBuilder({ selectedServiceIds, onToggleService, onIn
         {successInquiry ? (
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl text-center royal-glow">
             <CheckCircle className="h-12 w-12 text-gold-500 mx-auto mb-4 animate-bounce" />
-            <h2 className="font-serif text-lg font-bold text-white tracking-wider mb-2">Inquiry Lodged Successfully</h2>
+            <h2 className="font-serif text-lg font-bold text-white tracking-wider mb-2">Message Sent</h2>
             <p className="text-royal-300 text-sm font-light mb-6">
-              Your inquiry and compliance brief have been securely transmitted to the Neerambh Advisory team.
+              Thank you for reaching out. Our team will get back to you shortly.
             </p>
 
             <div className="bg-royal-950/60 rounded-lg p-4 border border-royal-800 mb-6">
-              <span className="block text-[10px] uppercase tracking-widest text-royal-400">Inquiry Tracking ID</span>
+              <span className="block text-[10px] uppercase tracking-widest text-royal-400">Reference ID</span>
               <span className="font-mono text-lg font-bold text-gold-400 tracking-wider select-all">{successInquiry.trackingId}</span>
-              <p className="text-[10px] text-royal-400 mt-2">Use this ID to check review progress inside the inquiries panel.</p>
+              <p className="text-[10px] text-royal-400 mt-2">Please keep this ID for your records.</p>
             </div>
 
             <div className="flex flex-col space-y-2">
               <button
-                onClick={() => {
-                  setSuccessInquiry(null);
-                  navigate('/my-inquiries');
-                }}
+                onClick={() => setSuccessInquiry(null)}
                 className="w-full py-2.5 rounded-lg bg-gold-500 text-royal-950 text-xs font-bold uppercase tracking-widest hover:brightness-110 transition-all"
               >
-                View Active Inquiries
-              </button>
-              <button
-                onClick={() => setSuccessInquiry(null)}
-                className="w-full py-2.5 rounded-lg border border-royal-800 text-royal-300 text-xs font-medium hover:text-white transition-all"
-              >
-                Inquire For Another Venture
+                Send Another Message
               </button>
             </div>
           </div>
@@ -227,7 +202,7 @@ export default function QuoteBuilder({ selectedServiceIds, onToggleService, onIn
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl royal-glow">
             <div className="flex items-center space-x-3 mb-6 border-b border-royal-800/60 pb-4">
               <Briefcase className="h-5 w-5 text-gold-500" />
-              <h2 className="font-serif text-base font-bold text-white tracking-wider">Contact & Inquire</h2>
+              <h2 className="font-serif text-base font-bold text-white tracking-wider">Send a Message</h2>
             </div>
 
             {errorMsg && (
@@ -240,7 +215,7 @@ export default function QuoteBuilder({ selectedServiceIds, onToggleService, onIn
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Name */}
               <div>
-                <label className="block text-[10px] uppercase tracking-widest text-royal-400 mb-1 font-semibold">Representative Name *</label>
+                <label className="block text-[10px] uppercase tracking-widest text-royal-400 mb-1 font-semibold">Full Name *</label>
                 <div className="relative">
                   <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-royal-500">
                     <User className="h-4 w-4" />
@@ -259,7 +234,7 @@ export default function QuoteBuilder({ selectedServiceIds, onToggleService, onIn
 
               {/* Email */}
               <div>
-                <label className="block text-[10px] uppercase tracking-widest text-royal-400 mb-1 font-semibold">Corporate Email Address *</label>
+                <label className="block text-[10px] uppercase tracking-widest text-royal-400 mb-1 font-semibold">Email Address *</label>
                 <div className="relative">
                   <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-royal-500">
                     <Mail className="h-4 w-4" />
@@ -270,7 +245,7 @@ export default function QuoteBuilder({ selectedServiceIds, onToggleService, onIn
                     required
                     value={formData.clientEmail}
                     onChange={handleInputChange}
-                    placeholder="corporate@yourcompany.com"
+                    placeholder="you@example.com"
                     className="w-full bg-royal-950 border border-royal-800 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500/40"
                   />
                 </div>
@@ -278,7 +253,7 @@ export default function QuoteBuilder({ selectedServiceIds, onToggleService, onIn
 
               {/* Phone */}
               <div>
-                <label className="block text-[10px] uppercase tracking-widest text-royal-400 mb-1 font-semibold">Secure Contact Number</label>
+                <label className="block text-[10px] uppercase tracking-widest text-royal-400 mb-1 font-semibold">Phone Number</label>
                 <div className="relative">
                   <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-royal-500">
                     <Phone className="h-4 w-4" />
@@ -288,7 +263,7 @@ export default function QuoteBuilder({ selectedServiceIds, onToggleService, onIn
                     name="clientPhone"
                     value={formData.clientPhone}
                     onChange={handleInputChange}
-                    placeholder="+91 / +1 Contact Details"
+                    placeholder="Your phone number"
                     className="w-full bg-royal-950 border border-royal-800 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500/40"
                   />
                 </div>
@@ -296,7 +271,7 @@ export default function QuoteBuilder({ selectedServiceIds, onToggleService, onIn
 
               {/* Business Entity Type */}
               <div>
-                <label className="block text-[10px] uppercase tracking-widest text-royal-400 mb-1 font-semibold">Current / Target Entity Structure</label>
+                <label className="block text-[10px] uppercase tracking-widest text-royal-400 mb-1 font-semibold">Business Type</label>
                 <div className="relative">
                   <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-royal-500">
                     <Building className="h-4 w-4" />
@@ -316,13 +291,13 @@ export default function QuoteBuilder({ selectedServiceIds, onToggleService, onIn
 
               {/* Specific Comments */}
               <div>
-                <label className="block text-[10px] uppercase tracking-widest text-royal-400 mb-1 font-semibold">Enterprise Briefing / Notes</label>
+                <label className="block text-[10px] uppercase tracking-widest text-royal-400 mb-1 font-semibold">Message</label>
                 <textarea
                   name="comments"
                   rows={3}
                   value={formData.comments}
                   onChange={handleInputChange}
-                  placeholder="Outline any key target timelines, state of incorporation, or specific capital thresholds..."
+                  placeholder="Tell us a bit about what you need help with"
                   className="w-full bg-royal-950 border border-royal-800 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500/40"
                 />
               </div>
@@ -339,12 +314,12 @@ export default function QuoteBuilder({ selectedServiceIds, onToggleService, onIn
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                     </svg>
-                    <span>Filing Inquiry...</span>
+                    <span>Sending...</span>
                   </>
                 ) : (
                   <>
                     <Send className="h-4 w-4" />
-                    <span>Send Message & Briefing</span>
+                    <span>Send Message</span>
                   </>
                 )}
               </button>

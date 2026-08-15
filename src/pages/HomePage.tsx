@@ -4,7 +4,6 @@ import ServiceCard from '../components/ServiceCard';
 import QuoteBuilder from '../components/QuoteBuilder';
 import { SERVICES } from '../data';
 import { BLOG_POSTS } from '../blogData';
-import { Inquiry } from '../types';
 import {
   Shield,
   Building,
@@ -31,10 +30,9 @@ function formatDate(iso: string): string {
 interface HomePageProps {
   selectedServices: string[];
   onToggleService: (serviceId: string) => void;
-  onInquirySubmitted: (newInquiry: Inquiry) => void;
 }
 
-export default function HomePage({ selectedServices, onToggleService, onInquirySubmitted }: HomePageProps) {
+export default function HomePage({ selectedServices, onToggleService }: HomePageProps) {
   const [activeCategoryFilter, setActiveCategoryFilter] = React.useState('all');
 
   const categories = [
@@ -62,18 +60,17 @@ export default function HomePage({ selectedServices, onToggleService, onInquiryS
           <div className="relative max-w-3xl space-y-6">
             <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full border border-gold-500/20 bg-gold-500/5 text-xs text-gold-400 font-semibold uppercase tracking-widest">
               <Shield className="h-3.5 w-3.5" />
-              <span>Premier Compliance Platform</span>
+              <span>GST, Tax &amp; Compliance Advisory</span>
             </div>
 
             <h1 className="font-serif text-3xl md:text-5xl font-extrabold tracking-wide text-white leading-tight">
-              Architecting Secure <br className="hidden md:block" />
-              <span className="purple-gold-gradient">Business Futures</span>
+              Compliance Handled with <br className="hidden md:block" />
+              <span className="purple-gold-gradient">Precision, Not Guesswork</span>
             </h1>
 
             <p className="text-royal-300 text-sm md:text-base font-light leading-relaxed max-w-2xl">
-              Neerambh serves global SMEs, startups, and high-net-worth directors with immaculate corporate
-              registrations, strict direct/indirect tax strategy, and flawless statutory audits. Fully digitized,
-              futuristic, and absolute.
+              Neerambh helps founders and growing businesses with GST registration and filing, company
+              incorporation, tax returns, and statutory audits — handled accurately and on time.
             </p>
 
             <div className="pt-4 flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
@@ -81,23 +78,23 @@ export default function HomePage({ selectedServices, onToggleService, onInquiryS
                 href="#contact"
                 className="px-6 py-3 rounded-lg border border-royal-700 hover:border-gold-500/30 text-royal-200 hover:text-white font-medium text-xs uppercase tracking-widest transition-all bg-royal-950/40 inline-flex items-center justify-center"
               >
-                Contact Advisors
+                Contact Us
               </a>
             </div>
           </div>
 
           <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 border-t border-royal-800/80 pt-8 text-center md:text-left">
             <div>
-              <span className="block text-2xl font-bold font-serif text-white">₹26.4B+</span>
-              <span className="text-[10px] uppercase tracking-widest text-royal-400 font-medium">Assets Under Audit</span>
+              <span className="block text-2xl font-bold font-serif text-white">10+</span>
+              <span className="text-[10px] uppercase tracking-widest text-royal-400 font-medium">Years of Experience</span>
             </div>
             <div>
-              <span className="block text-2xl font-bold font-serif text-white">15,000+</span>
-              <span className="text-[10px] uppercase tracking-widest text-royal-400 font-medium">Entities Registered</span>
+              <span className="block text-2xl font-bold font-serif text-white">13</span>
+              <span className="text-[10px] uppercase tracking-widest text-royal-400 font-medium">Compliance Services</span>
             </div>
             <div>
               <span className="block text-2xl font-bold font-serif text-white">100%</span>
-              <span className="text-[10px] uppercase tracking-widest text-royal-400 font-medium">Filing Integrity Rate</span>
+              <span className="text-[10px] uppercase tracking-widest text-royal-400 font-medium">Filing Accuracy</span>
             </div>
             <div>
               <span className="block text-2xl font-bold font-serif text-white">&lt;0.01%</span>
@@ -152,10 +149,9 @@ export default function HomePage({ selectedServices, onToggleService, onInquiryS
             Compliance handled with precision. Built on trust, not guesswork.
           </h2>
           <p className="mt-4 text-royal-300 text-sm md:text-base font-light leading-relaxed max-w-2xl">
-            Neerambh was founded to close the gap between founders and the tangle of Indian tax and corporate
-            compliance law. We combine deep GST, income tax, and MCA filing expertise with a digital-first process,
-            so every registration, return, and audit is handled end-to-end — accurately, on time, and without the
-            back-and-forth that usually comes with compliance work.
+            We help founders and growing businesses understand and manage their tax and compliance
+            requirements. Our team handles GST, income tax, and company filings so you can focus on running
+            your business, with every registration, return, and audit tracked from start to finish.
           </p>
 
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -243,7 +239,6 @@ export default function HomePage({ selectedServices, onToggleService, onInquiryS
         <QuoteBuilder
           selectedServiceIds={selectedServices}
           onToggleService={onToggleService}
-          onInquirySubmitted={onInquirySubmitted}
         />
       </section>
     </>

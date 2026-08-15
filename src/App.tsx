@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import RoyalAdvisor from './components/RoyalAdvisor';
-import InquiryPortal from './components/InquiryPortal';
 import HomePage from './pages/HomePage';
 import ServiceDetailPage from './pages/ServiceDetailPage';
 import BlogListPage from './pages/BlogListPage';
 import BlogPostPage from './pages/BlogPostPage';
-import { Inquiry } from './types';
 import { Shield } from 'lucide-react';
 
 /** Scrolls to the #hash section on the homepage after navigation (e.g. a
@@ -34,24 +31,6 @@ function ScrollToHash() {
 
 export default function App() {
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
-  const [advisorOpen, setAdvisorOpen] = useState(false);
-  const [inquiries, setInquiries] = useState<Inquiry[]>([]);
-
-  const fetchInquiries = async () => {
-    try {
-      const response = await fetch('/api/inquiries');
-      if (response.ok) {
-        const data = await response.json();
-        setInquiries(data);
-      }
-    } catch (err) {
-      console.error('Failed to fetch corporate inquiries ledger', err);
-    }
-  };
-
-  useEffect(() => {
-    fetchInquiries();
-  }, []);
 
   const handleToggleServiceInQuote = (serviceId: string) => {
     setSelectedServices(prev => (prev.includes(serviceId) ? prev.filter(id => id !== serviceId) : [...prev, serviceId]));
@@ -61,10 +40,6 @@ export default function App() {
     setSelectedServices(prev => (prev.includes(serviceId) ? prev : [...prev, serviceId]));
   };
 
-  const handleInquirySubmitted = (newInquiry: Inquiry) => {
-    setInquiries(prev => [...prev, newInquiry]);
-  };
-
   return (
     <div className="min-h-screen bg-royal-950 font-sans text-royal-100 antialiased selection:bg-gold-500/30 selection:text-white">
       <div className="fixed inset-0 -z-10 overflow-hidden">
@@ -72,7 +47,7 @@ export default function App() {
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#C5A059]/10 rounded-full blur-[120px] -ml-40 -mb-40" />
       </div>
 
-      <Navbar onOpenAdvisor={() => setAdvisorOpen(true)} />
+      <Navbar />
       <ScrollToHash />
 
       <Routes>
@@ -82,7 +57,6 @@ export default function App() {
             <HomePage
               selectedServices={selectedServices}
               onToggleService={handleToggleServiceInQuote}
-              onInquirySubmitted={handleInquirySubmitted}
             />
           }
         />
@@ -113,16 +87,6 @@ export default function App() {
             </main>
           }
         />
-        {/* Private, user-specific view — deliberately excluded from the sitemap and
-            marked noindex; it shows the submitted-inquiries ledger, not public content. */}
-        <Route
-          path="/my-inquiries"
-          element={
-            <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-              <InquiryPortal inquiries={inquiries} onRefresh={fetchInquiries} />
-            </main>
-          }
-        />
         <Route
           path="*"
           element={
@@ -139,13 +103,6 @@ export default function App() {
         />
       </Routes>
 
-      <RoyalAdvisor
-        isOpen={advisorOpen}
-        onClose={() => setAdvisorOpen(false)}
-        selectedServices={selectedServices}
-        onSelectServices={setSelectedServices}
-      />
-
       <footer className="border-t border-gold-500/5 bg-royal-950 py-12 mt-20 text-center text-xs text-royal-500">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-4">
           <div className="flex justify-center items-center space-x-2">
@@ -153,8 +110,7 @@ export default function App() {
             <span className="font-serif tracking-widest text-royal-300 text-sm font-bold uppercase">Neerambh</span>
           </div>
           <p className="max-w-md mx-auto font-light leading-relaxed text-[11px]">
-            &copy; {new Date().getFullYear()} Neerambh Compliance. All archives and secure inquiry details are
-            protected and strictly confidential.
+            &copy; {new Date().getFullYear()} Neerambh Compliance. All inquiry details are kept confidential.
           </p>
           <p className="text-[10px] text-gold-500/60 font-mono tracking-wider">Created by Radhejai</p>
           <div className="flex justify-center flex-wrap gap-x-6 gap-y-2 pt-2 text-royal-400">
@@ -176,10 +132,6 @@ export default function App() {
             <span>&bull;</span>
             <Link to="/#contact" className="hover:text-gold-400 transition-colors">
               Contact
-            </Link>
-            <span>&bull;</span>
-            <Link to="/my-inquiries" className="hover:text-gold-400 transition-colors">
-              My Inquiries
             </Link>
           </div>
         </div>

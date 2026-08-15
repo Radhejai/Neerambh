@@ -2,7 +2,7 @@ import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
 import dotenv from "dotenv";
-import { inquiries, createInquiry, runConsult } from "./api/_lib/store";
+import { inquiries, createInquiry } from "./api/_lib/store";
 
 dotenv.config();
 
@@ -31,11 +31,6 @@ app.get("/api/inquiries", (req, res) => {
   res.json(inquiries);
 });
 
-// Chat Consultation powered by Gemini
-app.post("/api/consult", async (req, res) => {
-  const { status, body } = await runConsult(req.body);
-  res.status(status).json(body);
-});
 
 
 // --- VITE DEV AND PROD SERVING ---

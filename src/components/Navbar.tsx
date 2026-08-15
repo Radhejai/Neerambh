@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Crown, Menu, X, Shield, Cpu, Compass, Sparkles, BookOpen, Home, Info } from 'lucide-react';
+import { Crown, Menu, X, Cpu, Compass, BookOpen, Home, Info } from 'lucide-react';
 
-interface NavbarProps {
-  onOpenAdvisor: () => void;
-}
-
-export default function Navbar({ onOpenAdvisor }: NavbarProps) {
+export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const sectionLinks = [
@@ -14,10 +10,6 @@ export default function Navbar({ onOpenAdvisor }: NavbarProps) {
     { path: '/#services', label: 'Services', icon: Compass },
     { path: '/#about', label: 'About', icon: Info },
     { path: '/#contact', label: 'Contact', icon: Cpu },
-  ];
-  const pageLinks = [
-    { path: '/blog', label: 'Blog', icon: BookOpen },
-    { path: '/my-inquiries', label: 'My Inquiries', icon: Shield },
   ];
 
   return (
@@ -62,42 +54,23 @@ export default function Navbar({ onOpenAdvisor }: NavbarProps) {
 
             <span className="h-6 w-px bg-royal-800 mx-2" />
 
-            {pageLinks.map((item) => {
-              const Icon = item.icon;
-              return (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  className={({ isActive }) =>
-                    `flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium tracking-wide transition-all duration-300 ${
-                      isActive
-                        ? 'bg-purple-500/10 text-purple-200 border border-purple-400/20 purple-glow'
-                        : 'text-royal-300 hover:text-white hover:bg-royal-900/50'
-                    }`
-                  }
-                >
-                  {({ isActive }) => (
-                    <>
-                      <Icon className={`h-4 w-4 ${isActive ? 'text-purple-300' : 'text-royal-400'}`} />
-                      <span>{item.label}</span>
-                    </>
-                  )}
-                </NavLink>
-              );
-            })}
-
-            <span className="h-6 w-px bg-royal-800 mx-4" />
-
-            <button
-              onClick={onOpenAdvisor}
-              className="relative px-5 py-2.5 rounded-lg overflow-hidden group border border-gold-500 bg-transparent flex items-center space-x-2"
+            <NavLink
+              to="/blog"
+              className={({ isActive }) =>
+                `flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium tracking-wide transition-all duration-300 ${
+                  isActive
+                    ? 'bg-purple-500/10 text-purple-200 border border-purple-400/20 purple-glow'
+                    : 'text-royal-300 hover:text-white hover:bg-royal-900/50'
+                }`
+              }
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-gold-600 to-gold-400 opacity-0 group-hover:opacity-100 transition-all duration-500" />
-              <Sparkles className="h-4 w-4 text-gold-400 group-hover:text-royal-950 transition-colors duration-300 animate-pulse" />
-              <span className="relative font-sans text-xs uppercase font-bold tracking-widest text-gold-300 group-hover:text-royal-950 transition-colors duration-300">
-                Ask Neerambh
-              </span>
-            </button>
+              {({ isActive }) => (
+                <>
+                  <BookOpen className={`h-4 w-4 ${isActive ? 'text-purple-300' : 'text-royal-400'}`} />
+                  <span>Blog</span>
+                </>
+              )}
+            </NavLink>
           </div>
 
           {/* Mobile menu button */}
@@ -134,38 +107,20 @@ export default function Navbar({ onOpenAdvisor }: NavbarProps) {
             );
           })}
           <div className="border-t border-royal-800 my-2" />
-          {pageLinks.map((item) => {
-            const Icon = item.icon;
-            return (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                onClick={() => setMobileMenuOpen(false)}
-                className={({ isActive }) =>
-                  `flex w-full items-center space-x-3 px-4 py-3 rounded-md text-base font-medium tracking-wide transition-all ${
-                    isActive
-                      ? 'bg-purple-500/10 text-purple-200 border border-purple-400/20'
-                      : 'text-royal-300 hover:text-white hover:bg-royal-900'
-                  }`
-                }
-              >
-                <Icon className="h-5 w-5 text-purple-300" />
-                <span>{item.label}</span>
-              </NavLink>
-            );
-          })}
-          <div className="pt-4 px-4">
-            <button
-              onClick={() => {
-                onOpenAdvisor();
-                setMobileMenuOpen(false);
-              }}
-              className="w-full py-3 rounded-md bg-gradient-to-r from-gold-600 to-gold-400 text-royal-950 text-center font-bold tracking-widest text-xs uppercase hover:brightness-110 transition-all flex items-center justify-center space-x-2"
-            >
-              <Sparkles className="h-4 w-4" />
-              <span>Ask Neerambh</span>
-            </button>
-          </div>
+          <NavLink
+            to="/blog"
+            onClick={() => setMobileMenuOpen(false)}
+            className={({ isActive }) =>
+              `flex w-full items-center space-x-3 px-4 py-3 rounded-md text-base font-medium tracking-wide transition-all ${
+                isActive
+                  ? 'bg-purple-500/10 text-purple-200 border border-purple-400/20'
+                  : 'text-royal-300 hover:text-white hover:bg-royal-900'
+              }`
+            }
+          >
+            <BookOpen className="h-5 w-5 text-purple-300" />
+            <span>Blog</span>
+          </NavLink>
         </div>
       )}
     </nav>
