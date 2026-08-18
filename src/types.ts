@@ -5,7 +5,6 @@ export interface Service {
   description: string;
   detailedDescription: string;
   category: 'incorporation' | 'tax' | 'compliance' | 'audit' | 'registration';
-  priceEstimate: string;
   timeline: string;
   governmentFees: string;
   documentsRequired: string[];

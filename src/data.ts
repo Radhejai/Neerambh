@@ -8,7 +8,6 @@ export const SERVICES: Service[] = [
     description: 'Establish your corporate entity. End-to-end support for Private Limited, LLP, OPC, or Public Limited structures.',
     detailedDescription: 'Launch your enterprise on solid legal foundations. We manage your entire setup journey—from securing your unique brand name to obtaining your Certificate of Incorporation, PAN, TAN, and drafting premium Articles & Memorandum of Association (AOA/MOA) crafted specifically for high-growth potential.',
     category: 'incorporation',
-    priceEstimate: '₹6,499 / $80 onwards',
     timeline: '7-10 Business Days',
     governmentFees: 'Based on authorized share capital and state',
     documentsRequired: [
@@ -46,7 +45,6 @@ export const SERVICES: Service[] = [
     description: 'Acquire your Goods and Services Tax Identification Number (GSTIN) to legally operate, bill, and claim input tax credits.',
     detailedDescription: 'Mandatory for businesses crossing statutory turnover limits, and highly recommended for e-commerce or inter-state trade. We guide you through the entire application process, ensuring flawless categorization of your products/services under correct HSN/SAC codes to eliminate regulatory friction.',
     category: 'registration',
-    priceEstimate: '₹1,499 / $18',
     timeline: '3-5 Business Days',
     governmentFees: 'Nil (Standard registration is free of govt fees)',
     documentsRequired: [
@@ -83,7 +81,6 @@ export const SERVICES: Service[] = [
     description: 'Monthly and quarterly tax filing to report sales, purchases, and declare output tax while optimizing input tax credit.',
     detailedDescription: 'Keep your tax record spotless. We handle your regular GST returns (GSTR-1, GSTR-3B, GSTR-4, or GSTR-1 quarterly), cross-reconciling your purchase invoices with supplier filings to maximize your Input Tax Credit (ITC) recovery, preventing financial leakages.',
     category: 'tax',
-    priceEstimate: '₹999 / $12 per month onwards',
     timeline: 'Ongoing (Monthly / Quarterly)',
     governmentFees: 'Subject to actual tax liability & late fees if applicable',
     documentsRequired: [
@@ -106,7 +103,6 @@ export const SERVICES: Service[] = [
     description: 'Comprehensive statutory reviews of GST accounts to ensure alignment with national tax laws and prevent audit notices.',
     detailedDescription: 'Navigate the complex landscape of GST audits with confidence. We perform a thorough review of your filing history (GSTR-9 & GSTR-9C), reconciling your sales and purchase books with official GST portal records (GSTR-2A/2B and GSTR-3B) to detect and resolve discrepancies pro-actively.',
     category: 'audit',
-    priceEstimate: '₹9,999 / $120 onwards',
     timeline: '10-15 Business Days',
     governmentFees: 'Varies with annual aggregate turnover and complexity',
     documentsRequired: [
@@ -129,7 +125,6 @@ export const SERVICES: Service[] = [
     description: 'Register under the Ministry of MSME to unlock powerful government subsidies, low-interest collateral-free loans, and payment protections.',
     detailedDescription: 'Access essential government support schemes. Registering under MSME/Udyam is highly beneficial for micro, small, and medium businesses seeking priority credit lending, protection against delayed buyer payments, and subsidies on intellectual property filing.',
     category: 'registration',
-    priceEstimate: '₹999 / $12',
     timeline: '1-2 Business Days',
     governmentFees: 'Nil (Registration is free of government charges)',
     documentsRequired: [
@@ -165,7 +160,6 @@ export const SERVICES: Service[] = [
     description: 'Obtain your 10-digit DGFT registration necessary to import goods into or export services out of the country legally.',
     detailedDescription: 'Expand your horizons globally. The Import Export Code (IEC), issued by the Directorate General of Foreign Trade (DGFT), is a lifetime-valid, zero-renewal registration required to clear customs, ship merchandise overseas, or send and receive business funds globally.',
     category: 'registration',
-    priceEstimate: '₹2,499 / $30',
     timeline: '2-4 Business Days',
     governmentFees: 'DGFT statutory processing fee included',
     documentsRequired: [
@@ -201,7 +195,6 @@ export const SERVICES: Service[] = [
     description: 'Acquire Class-3 cryptographic digital signatures required to authenticate e-filings, register companies, and submit government tenders securely.',
     detailedDescription: 'Secure your corporate virtual identity. We facilitate the rapid issuance of high-security Class-3 Digital Signature Certificates (DSC) with encryption and signing capabilities, ensuring your promoter identity is cryptographic, unforgeable, and fully compliant with government portals.',
     category: 'registration',
-    priceEstimate: '₹1,299 / $15 (2-Year Validity)',
     timeline: '1-2 Business Days',
     governmentFees: 'Standard certifying authority verification fee included',
     documentsRequired: [
@@ -224,7 +217,6 @@ export const SERVICES: Service[] = [
     description: 'Acquire Permanent Account Number and Tax Deduction Account Number for businesses, individuals, and foreign investors.',
     detailedDescription: 'Every business operating in India must possess a Permanent Account Number (PAN) for tracking financial transactions and a Tax Deduction and Collection Account Number (TAN) if they deduct tax at source (TDS). We handle the creation, verification, and speed-issuance of these critical identifiers.',
     category: 'registration',
-    priceEstimate: '₹999 / $12',
     timeline: '3-5 Business Days',
     governmentFees: 'Govt processing fee included',
     documentsRequired: [
@@ -247,7 +239,6 @@ export const SERVICES: Service[] = [
     description: 'Quarterly compliance to report taxes withheld from vendor payments, salaries, rent, and commissions to the government.',
     detailedDescription: 'Avoid heavy statutory late fees and corporate interest charges. If your business deducts tax at source on salaries, professional fees, or rent, you must file quarterly TDS returns (Form 24Q, 26Q, or 27Q). We handle the calculations, secure uploading, and rapid generation of Form 16/16A certificates for your payees.',
     category: 'tax',
-    priceEstimate: '₹1,999 / $24 per quarter',
     timeline: 'Ongoing (Quarterly)',
     governmentFees: 'Based on deduction values, late-fee calculation if delayed',
     documentsRequired: [
@@ -270,7 +261,6 @@ export const SERVICES: Service[] = [
     description: 'Annual corporate and individual direct tax filing, optimizing liabilities while preserving a pristine tax compliance profile.',
     detailedDescription: 'Maximize your post-tax returns. We analyze your corporate P&L or personal revenue streams to strategically claim all legal deductions, depreciations, and credits. From filing simple ITR-1/2 to complex corporate ITR-6 or business ITR-4/5, our expert tax consultants ensure your tax position is bulletproof against tax audits.',
     category: 'tax',
-    priceEstimate: '₹2,499 / $30 onwards',
     timeline: '3-5 Business Days (Annual)',
     governmentFees: 'Based on gross income bracket and delayed filing penalty if any',
     documentsRequired: [
@@ -294,7 +284,6 @@ export const SERVICES: Service[] = [
     description: 'Comprehensive, standard double-entry ledger maintenance, cloud reconciliation, and real-time financial health dashboards.',
     detailedDescription: 'Keep a clear, real-time pulse on your enterprise. Our cloud bookkeeping service delivers continuous management of your purchase ledgers, sales ledgers, bank feed reconciliation, and general journal entries. We prepare clean monthly trial balances and cash-flow reviews, ensuring you are always investor-ready.',
     category: 'compliance',
-    priceEstimate: '₹4,999 / $60 per month onwards',
     timeline: 'Continuous Monthly Support',
     governmentFees: 'Nil (Service-based accounting fees)',
     documentsRequired: [
@@ -317,7 +306,6 @@ export const SERVICES: Service[] = [
     description: 'Professional statutory audits, tax reviews, internal control setups, and strategic capital budgeting consultations.',
     detailedDescription: 'Elevate your financial integrity and streamline operations. We conduct professional reviews, internal audits, and general accounting health checks for small and medium-sized enterprises. We evaluate internal risk controls, ensure compliance with accounting standards, and offer advisory on debt-equity optimization and capital allocation.',
     category: 'audit',
-    priceEstimate: '₹14,999 / $180 onwards',
     timeline: '12-20 Business Days',
     governmentFees: 'Determined by statutory company size and audit scope',
     documentsRequired: [
@@ -340,7 +328,6 @@ export const SERVICES: Service[] = [
     description: 'Ensure statutory compliance with MCA/ROC guidelines. We manage Board Meetings, Annual General Meeting (AGM) filings, and mandatory e-returns.',
     detailedDescription: 'Protect your corporation from administrative blacklisting. A Private Limited company must fulfill strict statutory annual filings with the Registrar of Companies (ROC)—specifically Form AOC-4 (financials) and MGT-7 (annual return). We handle your entire compliance calendar to ensure your active status remains immaculate.',
     category: 'compliance',
-    priceEstimate: '₹11,999 / $150 onwards (Annual Package)',
     timeline: '15-20 Business Days (Annual cycle)',
     governmentFees: 'ROC filing fees, calculated based on share capital',
     documentsRequired: [

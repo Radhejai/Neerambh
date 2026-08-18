@@ -63,7 +63,7 @@ export default function ServiceDetailPage({ onAddToQuote }: ServiceDetailPagePro
         </section>
 
         {/* Logistics */}
-        <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <section className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="bg-royal-900/30 p-3 rounded-lg border border-royal-800">
             <span className="block text-[9px] uppercase tracking-widest text-royal-400">Processing Timeline</span>
             <span className="text-xs font-semibold text-white">{service.timeline}</span>
@@ -71,10 +71,6 @@ export default function ServiceDetailPage({ onAddToQuote }: ServiceDetailPagePro
           <div className="bg-royal-900/30 p-3 rounded-lg border border-royal-800">
             <span className="block text-[9px] uppercase tracking-widest text-royal-400">Government Fees</span>
             <span className="text-xs font-semibold text-white">{service.governmentFees}</span>
-          </div>
-          <div className="bg-royal-900/30 p-3 rounded-lg border border-royal-800">
-            <span className="block text-[9px] uppercase tracking-widest text-royal-400">Price Estimate</span>
-            <span className="text-xs font-semibold text-white">{service.priceEstimate}</span>
           </div>
         </section>
 
