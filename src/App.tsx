@@ -102,7 +102,6 @@ export default function App() {
           <p className="max-w-md mx-auto font-light leading-relaxed text-[11px]">
             &copy; {new Date().getFullYear()} Neerambh Compliance. All inquiry details are kept confidential.
           </p>
-          <p className="text-[10px] text-gold-500/60 font-mono tracking-wider">Created by Radhejai</p>
           <div className="flex justify-center flex-wrap gap-x-6 gap-y-2 pt-2 text-royal-400">
             <Link to="/" className="hover:text-gold-400 transition-colors">
               Home
