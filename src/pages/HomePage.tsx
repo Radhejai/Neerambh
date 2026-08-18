@@ -1,58 +1,19 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import ServiceCard from '../components/ServiceCard';
-import QuoteBuilder from '../components/QuoteBuilder';
-import { SERVICES } from '../data';
+import { Link } from 'react-router-dom';
 import { BLOG_POSTS } from '../blogData';
-import {
-  Shield,
-  Building,
-  Percent,
-  ClipboardCheck,
-  Scale,
-  Award,
-  Landmark,
-  BookOpen,
-  Target,
-  Users,
-  TrendingUp,
-} from 'lucide-react';
-
-function ServiceCardLink({ service }: { service: (typeof SERVICES)[number]; key?: string }) {
-  const navigate = useNavigate();
-  return <ServiceCard service={service} onViewDetails={() => navigate(`/services/${service.slug}`)} />;
-}
+import { Shield, BookOpen } from 'lucide-react';
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 
-interface HomePageProps {
-  selectedServices: string[];
-  onToggleService: (serviceId: string) => void;
-}
-
-export default function HomePage({ selectedServices, onToggleService }: HomePageProps) {
-  const [activeCategoryFilter, setActiveCategoryFilter] = React.useState('all');
-
-  const categories = [
-    { id: 'all', label: 'All Services', icon: Landmark },
-    { id: 'incorporation', label: 'Incorporation', icon: Building },
-    { id: 'tax', label: 'Taxation & Filing', icon: Percent },
-    { id: 'audit', label: 'Audit & Assurance', icon: ClipboardCheck },
-    { id: 'compliance', label: 'Corporate Compliance', icon: Scale },
-    { id: 'registration', label: 'Registrations', icon: Award },
-  ];
-
-  const filteredServices =
-    activeCategoryFilter === 'all' ? SERVICES : SERVICES.filter((s) => s.category === activeCategoryFilter);
-
+export default function HomePage() {
   const latestPosts = [...BLOG_POSTS].sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1)).slice(0, 3);
 
   return (
     <>
       {/* ===== HERO ===== */}
-      <header id="home" className="mx-auto max-w-7xl px-4 pt-12 pb-6 sm:px-6 lg:px-8 scroll-mt-20">
+      <header className="mx-auto max-w-7xl px-4 pt-12 pb-6 sm:px-6 lg:px-8">
         <div className="relative rounded-2xl border border-white/10 bg-gradient-to-br from-royal-900 via-royal-950 to-purple-900/30 p-8 md:p-12 backdrop-blur-xl overflow-hidden royal-glow">
           <div className="absolute top-0 right-0 h-56 w-56 bg-purple-500/10 blur-3xl rounded-full" />
           <div className="absolute -bottom-8 -left-8 h-36 w-36 bg-gold-500/10 blur-2xl rounded-full" />
@@ -74,12 +35,18 @@ export default function HomePage({ selectedServices, onToggleService }: HomePage
             </p>
 
             <div className="pt-4 flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
-              <a
-                href="#contact"
+              <Link
+                to="/services"
+                className="px-6 py-3 rounded-lg bg-gold-500 text-royal-950 font-bold text-xs uppercase tracking-widest hover:brightness-110 transition-all inline-flex items-center justify-center"
+              >
+                View Services
+              </Link>
+              <Link
+                to="/contact"
                 className="px-6 py-3 rounded-lg border border-royal-700 hover:border-gold-500/30 text-royal-200 hover:text-white font-medium text-xs uppercase tracking-widest transition-all bg-royal-950/40 inline-flex items-center justify-center"
               >
                 Contact Us
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -104,90 +71,8 @@ export default function HomePage({ selectedServices, onToggleService }: HomePage
         </div>
       </header>
 
-      {/* ===== SERVICES ===== */}
-      <section id="services" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-20">
-        <div className="mb-8">
-          <span className="text-[10px] uppercase tracking-widest text-purple-300 font-bold">What We Offer</span>
-          <h2 className="mt-2 font-serif text-2xl md:text-3xl font-extrabold text-white">Compliance &amp; Registration Services</h2>
-        </div>
-
-        <div className="space-y-8">
-          <div className="flex flex-wrap gap-2 pb-4 border-b border-royal-800/40">
-            {categories.map((cat) => {
-              const Icon = cat.icon;
-              const isSelected = activeCategoryFilter === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveCategoryFilter(cat.id)}
-                  className={`flex items-center space-x-2 px-4 py-2.5 rounded-full text-xs font-semibold tracking-wide border transition-all duration-300 ${
-                    isSelected
-                      ? 'bg-gold-500 text-royal-950 border-gold-500 font-bold royal-glow-sm'
-                      : 'bg-royal-900/30 text-royal-300 border-royal-800 hover:border-royal-700 hover:text-white'
-                  }`}
-                >
-                  <Icon className="h-3.5 w-3.5" />
-                  <span>{cat.label}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredServices.map((service) => (
-              <ServiceCardLink key={service.id} service={service} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== ABOUT ===== */}
-      <section id="about" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-20">
-        <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-purple-900/20 via-royal-900 to-royal-950 p-8 md:p-12 backdrop-blur-xl purple-glow">
-          <span className="text-[10px] uppercase tracking-widest text-purple-300 font-bold">About Neerambh</span>
-          <h2 className="mt-2 font-serif text-2xl md:text-3xl font-extrabold text-white max-w-2xl">
-            Compliance handled with precision. Built on trust, not guesswork.
-          </h2>
-          <p className="mt-4 text-royal-300 text-sm md:text-base font-light leading-relaxed max-w-2xl">
-            We help founders and growing businesses understand and manage their tax and compliance
-            requirements. Our team handles GST, income tax, and company filings so you can focus on running
-            your business, with every registration, return, and audit tracked from start to finish.
-          </p>
-
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div className="flex items-start space-x-3">
-              <Target className="h-5 w-5 text-gold-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <h3 className="text-sm font-semibold text-white">Precision First</h3>
-                <p className="mt-1 text-xs text-royal-400 font-light leading-relaxed">
-                  Every filing is checked against current GST and MCA rules before it's submitted.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start space-x-3">
-              <Users className="h-5 w-5 text-gold-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <h3 className="text-sm font-semibold text-white">Founder-Focused</h3>
-                <p className="mt-1 text-xs text-royal-400 font-light leading-relaxed">
-                  Built for founders and growing businesses who need compliance handled, not explained in jargon.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start space-x-3">
-              <TrendingUp className="h-5 w-5 text-gold-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <h3 className="text-sm font-semibold text-white">End-to-End</h3>
-                <p className="mt-1 text-xs text-royal-400 font-light leading-relaxed">
-                  From incorporation through ongoing returns and audits, tracked in one place.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ===== BLOG PREVIEW ===== */}
-      <section id="blog" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-20">
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
           <div>
             <span className="text-[10px] uppercase tracking-widest text-purple-300 font-bold">Compliance Insights</span>
@@ -228,18 +113,6 @@ export default function HomePage({ selectedServices, onToggleService }: HomePage
             View All Posts &rarr;
           </Link>
         </div>
-      </section>
-
-      {/* ===== CONTACT ===== */}
-      <section id="contact" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-20">
-        <div className="mb-8">
-          <span className="text-[10px] uppercase tracking-widest text-purple-300 font-bold">Get In Touch</span>
-          <h2 className="mt-2 font-serif text-2xl md:text-3xl font-extrabold text-white">Contact Our Advisors</h2>
-        </div>
-        <QuoteBuilder
-          selectedServiceIds={selectedServices}
-          onToggleService={onToggleService}
-        />
       </section>
     </>
   );

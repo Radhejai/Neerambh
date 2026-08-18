@@ -1,31 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
+import ServicesPage from './pages/ServicesPage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
 import ServiceDetailPage from './pages/ServiceDetailPage';
 import BlogListPage from './pages/BlogListPage';
 import BlogPostPage from './pages/BlogPostPage';
 import { Shield } from 'lucide-react';
 
-/** Scrolls to the #hash section on the homepage after navigation (e.g. a
- * "Services" nav click while on a different page routes to "/#services"
- * and this handles the actual scroll once the homepage has rendered).
- * Plain navigation to "/" with no hash scrolls to the top instead. */
-function ScrollToHash() {
-  const { pathname, hash } = useLocation();
-
+/** Scroll to the top of the page on every route change — standard
+ * multi-page behavior (a click on a nav link should land at the top of
+ * the new page, not wherever the scroll position happened to be). */
+function ScrollToTop() {
+  const { pathname } = useLocation();
   useEffect(() => {
-    if (hash) {
-      // Wait a tick for the target route's content to mount.
-      const id = hash.replace('#', '');
-      requestAnimationFrame(() => {
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    } else if (pathname === '/') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }, [pathname, hash]);
-
+    window.scrollTo({ top: 0 });
+  }, [pathname]);
   return null;
 }
 
@@ -48,17 +40,15 @@ export default function App() {
       </div>
 
       <Navbar />
-      <ScrollToHash />
+      <ScrollToTop />
 
       <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/services" element={<ServicesPage />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route
-          path="/"
-          element={
-            <HomePage
-              selectedServices={selectedServices}
-              onToggleService={handleToggleServiceInQuote}
-            />
-          }
+          path="/contact"
+          element={<ContactPage selectedServices={selectedServices} onToggleService={handleToggleServiceInQuote} />}
         />
         <Route
           path="/services/:slug"
@@ -68,9 +58,6 @@ export default function App() {
             </main>
           }
         />
-        {/* The old standalone /contact page is now the "Contact" section on
-            the homepage — redirect so bookmarks/links keep working. */}
-        <Route path="/contact" element={<Navigate to="/#contact" replace />} />
         <Route
           path="/blog"
           element={
@@ -114,15 +101,15 @@ export default function App() {
           </p>
           <p className="text-[10px] text-gold-500/60 font-mono tracking-wider">Created by Radhejai</p>
           <div className="flex justify-center flex-wrap gap-x-6 gap-y-2 pt-2 text-royal-400">
-            <Link to="/#home" className="hover:text-gold-400 transition-colors">
+            <Link to="/" className="hover:text-gold-400 transition-colors">
               Home
             </Link>
             <span>&bull;</span>
-            <Link to="/#services" className="hover:text-gold-400 transition-colors">
+            <Link to="/services" className="hover:text-gold-400 transition-colors">
               Services
             </Link>
             <span>&bull;</span>
-            <Link to="/#about" className="hover:text-gold-400 transition-colors">
+            <Link to="/about" className="hover:text-gold-400 transition-colors">
               About
             </Link>
             <span>&bull;</span>
@@ -130,7 +117,7 @@ export default function App() {
               Blog
             </Link>
             <span>&bull;</span>
-            <Link to="/#contact" className="hover:text-gold-400 transition-colors">
+            <Link to="/contact" className="hover:text-gold-400 transition-colors">
               Contact
             </Link>
           </div>

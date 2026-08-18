@@ -1,7 +1,6 @@
 /**
  * Generates dist/sitemap.xml from the same route list the prerenderer uses,
- * so it can never drift from what's actually built. Regenerated on every
- * `npm run build`. Excludes the private /my-inquiries route (noindex).
+ * so it can never drift from what's actually built.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -15,6 +14,9 @@ const SITE_URL = 'https://neerambh.com';
 
 const publicPaths = [
   '/',
+  '/services',
+  '/about',
+  '/contact',
   ...SERVICES.map((s) => `/services/${s.slug}`),
   '/blog',
   ...BLOG_POSTS.map((p) => `/blog/${p.slug}`),
