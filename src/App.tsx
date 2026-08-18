@@ -43,7 +43,10 @@ export default function App() {
       <ScrollToTop />
 
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/"
+          element={<HomePage selectedServices={selectedServices} onToggleService={handleToggleServiceInQuote} />}
+        />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route

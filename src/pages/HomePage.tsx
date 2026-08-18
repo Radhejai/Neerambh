@@ -1,19 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BLOG_POSTS } from '../blogData';
+import ServicesSection from '../components/sections/ServicesSection';
+import AboutSection from '../components/sections/AboutSection';
+import ContactSection from '../components/sections/ContactSection';
 import { Shield, BookOpen } from 'lucide-react';
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 
-export default function HomePage() {
+interface HomePageProps {
+  selectedServices: string[];
+  onToggleService: (serviceId: string) => void;
+}
+
+export default function HomePage({ selectedServices, onToggleService }: HomePageProps) {
   const latestPosts = [...BLOG_POSTS].sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1)).slice(0, 3);
 
   return (
     <>
       {/* ===== HERO ===== */}
-      <header className="mx-auto max-w-7xl px-4 pt-12 pb-6 sm:px-6 lg:px-8">
+      <header id="home" className="mx-auto max-w-7xl px-4 pt-12 pb-6 sm:px-6 lg:px-8 scroll-mt-20">
         <div className="relative rounded-2xl border border-white/10 bg-gradient-to-br from-royal-900 via-royal-950 to-purple-900/30 p-8 md:p-12 backdrop-blur-xl overflow-hidden royal-glow">
           <div className="absolute top-0 right-0 h-56 w-56 bg-purple-500/10 blur-3xl rounded-full" />
           <div className="absolute -bottom-8 -left-8 h-36 w-36 bg-gold-500/10 blur-2xl rounded-full" />
@@ -35,18 +43,12 @@ export default function HomePage() {
             </p>
 
             <div className="pt-4 flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
-              <Link
-                to="/services"
+              <a
+                href="#contact"
                 className="px-6 py-3 rounded-lg bg-gold-500 text-royal-950 font-bold text-xs uppercase tracking-widest hover:brightness-110 transition-all inline-flex items-center justify-center"
               >
-                View Services
-              </Link>
-              <Link
-                to="/contact"
-                className="px-6 py-3 rounded-lg border border-royal-700 hover:border-gold-500/30 text-royal-200 hover:text-white font-medium text-xs uppercase tracking-widest transition-all bg-royal-950/40 inline-flex items-center justify-center"
-              >
                 Contact Us
-              </Link>
+              </a>
             </div>
           </div>
 
@@ -71,8 +73,18 @@ export default function HomePage() {
         </div>
       </header>
 
+      {/* ===== SERVICES ===== */}
+      <section id="services" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-20">
+        <ServicesSection headingTag="h2" />
+      </section>
+
+      {/* ===== ABOUT ===== */}
+      <section id="about" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-20">
+        <AboutSection headingTag="h2" />
+      </section>
+
       {/* ===== BLOG PREVIEW ===== */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <section id="blog" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-20">
         <div className="flex items-center justify-between mb-8">
           <div>
             <span className="text-[10px] uppercase tracking-widest text-purple-300 font-bold">Compliance Insights</span>
@@ -113,6 +125,11 @@ export default function HomePage() {
             View All Posts &rarr;
           </Link>
         </div>
+      </section>
+
+      {/* ===== CONTACT ===== */}
+      <section id="contact" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-20">
+        <ContactSection selectedServices={selectedServices} onToggleService={onToggleService} headingTag="h2" />
       </section>
     </>
   );
