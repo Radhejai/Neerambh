@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Service, Inquiry } from '../types';
+import { Inquiry } from '../types';
 import { SERVICES } from '../data';
-import { Calculator, Send, CheckCircle, Shield, Briefcase, FileText, User, Mail, Phone, Building, Info, AlertTriangle } from 'lucide-react';
+import { Send, CheckCircle, Shield, Briefcase, User, Mail, Phone, Building, AlertTriangle } from 'lucide-react';
 
 interface QuoteBuilderProps {
   selectedServiceIds: string[];

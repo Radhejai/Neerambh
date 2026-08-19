@@ -17,7 +17,7 @@ export default function BlogPostPage() {
       <div className="mx-auto max-w-3xl px-4 py-24 text-center sm:px-6 lg:px-8">
         <h1 className="font-serif text-2xl font-bold text-white mb-3">Post Not Found</h1>
         <Link
-          to="/blog"
+          to="/insights"
           className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-lg bg-gold-500 text-royal-950 text-xs font-bold uppercase tracking-widest hover:brightness-110 transition-all"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
@@ -32,7 +32,7 @@ export default function BlogPostPage() {
   return (
     <article className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
       <nav aria-label="Breadcrumb" className="mb-6 text-xs text-royal-400 flex items-center space-x-2">
-        <Link to="/blog" className="hover:text-gold-400 transition-colors">
+        <Link to="/insights" className="hover:text-gold-400 transition-colors">
           Blog
         </Link>
         <span>/</span>
@@ -79,7 +79,7 @@ export default function BlogPostPage() {
       )}
 
       <div className="mt-8">
-        <Link to="/blog" className="inline-flex items-center space-x-2 text-xs font-semibold text-royal-300 hover:text-gold-400 uppercase tracking-widest transition-colors">
+        <Link to="/insights" className="inline-flex items-center space-x-2 text-xs font-semibold text-royal-300 hover:text-gold-400 uppercase tracking-widest transition-colors">
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Back to Blog</span>
         </Link>

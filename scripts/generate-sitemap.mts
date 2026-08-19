@@ -18,8 +18,10 @@ const publicPaths = [
   '/about',
   '/contact',
   ...SERVICES.map((s) => `/services/${s.slug}`),
-  '/blog',
-  ...BLOG_POSTS.map((p) => `/blog/${p.slug}`),
+  '/insights',
+  '/insights/faq',
+  '/insights/feedback',
+  ...BLOG_POSTS.map((p) => `/insights/blog/${p.slug}`),
 ];
 
 const urls = publicPaths

@@ -31,6 +31,14 @@ app.get("/api/inquiries", (req, res) => {
   res.json(inquiries);
 });
 
+// --- LEGACY URL REDIRECTS ---
+// /blog was renamed to /insights (now Blog + FAQ + Feedback). Real 301s
+// here (not client-side-only redirects) so search engines transfer
+// ranking signals to the new URLs. Registered before static/catch-all so
+// they win in both dev (Vite middleware) and production.
+app.get("/blog", (req, res) => res.redirect(301, "/insights"));
+app.get("/blog/:slug", (req, res) => res.redirect(301, `/insights/blog/${req.params.slug}`));
+
 
 
 // --- VITE DEV AND PROD SERVING ---

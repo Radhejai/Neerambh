@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Routes, Route, Link, Navigate, useLocation, useParams } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import ServicesPage from './pages/ServicesPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import ServiceDetailPage from './pages/ServiceDetailPage';
+import InsightsLayout from './pages/InsightsLayout';
 import BlogListPage from './pages/BlogListPage';
 import BlogPostPage from './pages/BlogPostPage';
+import FaqPage from './pages/FaqPage';
+import FeedbackPage from './pages/FeedbackPage';
 import { Shield } from 'lucide-react';
+
+/** Old /blog/:slug links (pre-Insights) land here and get sent to the new
+ * canonical URL. Client-side fallback only — server.ts issues a real 301
+ * for crawlers and direct hits in production. */
+function BlogSlugRedirect() {
+  const { slug } = useParams<{ slug: string }>();
+  return <Navigate to={`/insights/blog/${slug}`} replace />;
+}
 
 /** Scroll to the top of the page on every route change — standard
  * multi-page behavior (a click on a nav link should land at the top of
@@ -61,22 +72,22 @@ export default function App() {
             </main>
           }
         />
+        <Route path="/insights" element={<InsightsLayout />}>
+          <Route index element={<BlogListPage />} />
+          <Route path="faq" element={<FaqPage />} />
+          <Route path="feedback" element={<FeedbackPage />} />
+        </Route>
         <Route
-          path="/blog"
-          element={
-            <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-              <BlogListPage />
-            </main>
-          }
-        />
-        <Route
-          path="/blog/:slug"
+          path="/insights/blog/:slug"
           element={
             <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
               <BlogPostPage />
             </main>
           }
         />
+        {/* Legacy URLs — permanently moved under /insights. */}
+        <Route path="/blog" element={<Navigate to="/insights" replace />} />
+        <Route path="/blog/:slug" element={<BlogSlugRedirect />} />
         <Route
           path="*"
           element={
@@ -115,8 +126,8 @@ export default function App() {
               About
             </Link>
             <span>&bull;</span>
-            <Link to="/blog" className="hover:text-gold-400 transition-colors">
-              Blog
+            <Link to="/insights" className="hover:text-gold-400 transition-colors">
+              Insights
             </Link>
             <span>&bull;</span>
             <Link to="/contact" className="hover:text-gold-400 transition-colors">

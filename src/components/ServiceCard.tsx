@@ -1,6 +1,6 @@
 import React from 'react';
 import { Service } from '../types';
-import { Landmark, Percent, ShieldAlert, Award, FileText, CheckCircle, Clock, Coins, Check, Plus, AlertCircle, ArrowUpRight } from 'lucide-react';
+import { Landmark, Percent, ShieldAlert, Award, FileText, AlertCircle, ArrowUpRight } from 'lucide-react';
 
 export interface ServiceCardProps {
   service: Service;

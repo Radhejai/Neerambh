@@ -63,13 +63,24 @@ const routes: RouteMeta[] = [
     description: s.description,
   })),
   {
-    path: '/blog',
-    title: 'Blog | Neerambh Compliance Advisory',
+    path: '/insights',
+    title: 'Insights: Blog, FAQ & Feedback | Neerambh Compliance Advisory',
     description: 'Practical guides on GST, incorporation, and compliance for growing Indian businesses.',
   },
+  {
+    path: '/insights/faq',
+    title: 'Frequently Asked Questions | Neerambh Insights',
+    description:
+      'Answers to the most common questions about GST registration, incorporation, tax filing, and compliance services from Neerambh.',
+  },
+  {
+    path: '/insights/feedback',
+    title: 'Feedback & Reviews | Neerambh Insights',
+    description: 'Share your feedback on Neerambh\u2019s compliance advisory services.',
+  },
   ...BLOG_POSTS.map((p) => ({
-    path: `/blog/${p.slug}`,
-    title: `${p.title} | Neerambh Blog`,
+    path: `/insights/blog/${p.slug}`,
+    title: `${p.title} | Neerambh Insights`,
     description: p.excerpt,
   })),
 ];
@@ -126,14 +137,17 @@ function renderRoute(route: RouteMeta): string {
     html = html.replace('</title>', '</title>\n  <meta name="robots" content="noindex, nofollow" />');
   }
 
-  // FAQPage structured data — only for routes with real FAQ content, so
-  // Google can surface rich FAQ snippets for these service pages.
+  // FAQPage structured data — for individual service pages (their own
+  // FAQs) and for the aggregated /insights/faq page (every service's FAQs
+  // combined), so Google can surface rich FAQ snippets for both.
   const svc = SERVICES.find((s) => `/services/${s.slug}` === route.path);
-  if (svc && svc.faqs && svc.faqs.length > 0) {
+  const allFaqs = SERVICES.flatMap((s) => s.faqs ?? []);
+  const faqsForRoute = route.path === '/insights/faq' ? allFaqs : svc?.faqs;
+  if (faqsForRoute && faqsForRoute.length > 0) {
     const faqSchema = {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
-      mainEntity: svc.faqs.map((f) => ({
+      mainEntity: faqsForRoute.map((f) => ({
         '@type': 'Question',
         name: f.q,
         acceptedAnswer: { '@type': 'Answer', text: f.a },
@@ -146,7 +160,7 @@ function renderRoute(route: RouteMeta): string {
   }
 
   // Article structured data for blog posts.
-  const post = BLOG_POSTS.find((p) => `/blog/${p.slug}` === route.path);
+  const post = BLOG_POSTS.find((p) => `/insights/blog/${p.slug}` === route.path);
   if (post) {
     const articleSchema = {
       '@context': 'https://schema.org',
