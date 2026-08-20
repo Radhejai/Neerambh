@@ -324,7 +324,7 @@ export const SERVICES: Service[] = [
   {
     id: 'pvt-ltd-compliance',
     slug: 'pvt-ltd-corporate-compliance',
-    title: 'Pvt Ltd Corporate Compliance',
+    title: 'Corporate Compliance',
     description: 'Ensure statutory compliance with MCA/ROC guidelines. We manage Board Meetings, Annual General Meeting (AGM) filings, and mandatory e-returns.',
     detailedDescription: 'Protect your corporation from administrative blacklisting. A Private Limited company must fulfill strict statutory annual filings with the Registrar of Companies (ROC)—specifically Form AOC-4 (financials) and MGT-7 (annual return). We handle your entire compliance calendar to ensure your active status remains immaculate.',
     category: 'compliance',
