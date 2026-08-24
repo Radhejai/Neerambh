@@ -91,7 +91,7 @@ export default function HomePage({ selectedServices, onToggleService }: HomePage
             <h2 className="mt-2 font-serif text-2xl md:text-3xl font-extrabold text-white">From the Blog</h2>
           </div>
           <Link
-            to="/blog"
+            to="/insights"
             className="hidden sm:inline-flex items-center space-x-2 text-xs font-semibold text-gold-400 hover:text-gold-300 uppercase tracking-widest transition-colors"
           >
             <BookOpen className="h-3.5 w-3.5" />
@@ -103,7 +103,7 @@ export default function HomePage({ selectedServices, onToggleService }: HomePage
           {latestPosts.map((post) => (
             <Link
               key={post.slug}
-              to={`/blog/${post.slug}`}
+              to={`/insights/blog/${post.slug}`}
               className="block rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl hover:border-purple-400/30 transition-all group"
             >
               <time className="text-[10px] uppercase tracking-widest text-royal-400 font-mono">
@@ -121,7 +121,7 @@ export default function HomePage({ selectedServices, onToggleService }: HomePage
         </div>
 
         <div className="mt-6 text-center sm:hidden">
-          <Link to="/blog" className="text-xs font-semibold text-gold-400 uppercase tracking-widest">
+          <Link to="/insights" className="text-xs font-semibold text-gold-400 uppercase tracking-widest">
             View All Posts &rarr;
           </Link>
         </div>

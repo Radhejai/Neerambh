@@ -6,15 +6,25 @@ import { Target, Users, TrendingUp } from 'lucide-react';
 export default function AboutSection({ headingTag: Heading = 'h1' }: { headingTag?: 'h1' | 'h2' }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-purple-900/20 via-royal-900 to-royal-950 p-8 md:p-12 backdrop-blur-xl purple-glow">
-      <span className="text-[10px] uppercase tracking-widest text-purple-300 font-bold">About Neerambh</span>
-      <Heading className="mt-2 font-serif text-2xl md:text-3xl font-extrabold text-white max-w-2xl">
-        Compliance handled with precision. Built on trust, not guesswork.
-      </Heading>
-      <p className="mt-4 text-royal-300 text-sm md:text-base font-light leading-relaxed max-w-2xl">
-        We help founders and growing businesses understand and manage their tax and compliance
-        requirements. Our team handles GST, income tax, and company filings so you can focus on running
-        your business, with every registration, return, and audit tracked from start to finish.
-      </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div>
+          <span className="text-[10px] uppercase tracking-widest text-purple-300 font-bold">About Neerambh</span>
+          <Heading className="mt-2 font-serif text-2xl md:text-3xl font-extrabold text-white max-w-2xl">
+            Compliance handled with precision. Built on trust, not guesswork.
+          </Heading>
+          <p className="mt-4 text-royal-300 text-sm md:text-base font-light leading-relaxed max-w-2xl">
+            We help founders and growing businesses understand and manage their tax and compliance
+            requirements. Our team handles GST, income tax, and company filings so you can focus on running
+            your business, with every registration, return, and audit tracked from start to finish.
+          </p>
+        </div>
+        <img
+          src="/images/team-photo.jpg"
+          alt="The Neerambh compliance team at their office"
+          className="w-full h-56 md:h-72 object-cover rounded-xl border border-white/10"
+          loading="lazy"
+        />
+      </div>
 
       <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div className="flex items-start space-x-3">

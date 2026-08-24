@@ -3,6 +3,23 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { SERVICES } from '../data';
 import { Check, ArrowLeft, Shield } from 'lucide-react';
 
+/** Per-service banner image (public/images/services), keyed by slug. */
+const SERVICE_IMAGES: Record<string, string> = {
+  'company-llp-incorporation': '/images/services/company-llp-incorporation.jpg',
+  'gst-registration': '/images/services/gst-registration.jpg',
+  'gst-return-filing': '/images/services/gst-return-filing.jpg',
+  'gst-audit-reconciliation': '/images/services/gst-audit-reconciliation.jpg',
+  'msme-udyam-registration': '/images/services/msme-udyam-registration.jpg',
+  'import-export-code': '/images/services/import-export-code.jpg',
+  'digital-signature-certificate': '/images/services/digital-signature-certificate.jpg',
+  'pan-tan-registration': '/images/services/pan-tan-registration.jpg',
+  'tds-return-filing': '/images/services/msme-udyam-registration.jpg',
+  'income-tax-return-filing': '/images/services/pan-tan-registration.jpg',
+  'accounting-bookkeeping': '/images/services/digital-signature-certificate.jpg',
+  'sme-audit-financial-consultancy': '/images/services/gst-return-filing.jpg',
+  'pvt-ltd-corporate-compliance': '/images/services/pvt-ltd-corporate-compliance.jpg',
+};
+
 interface ServiceDetailPageProps {
   onAddToQuote: (serviceId: string) => void;
 }
@@ -40,6 +57,16 @@ export default function ServiceDetailPage({ onAddToQuote }: ServiceDetailPagePro
       </nav>
 
       <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-10 backdrop-blur-xl royal-glow space-y-8">
+        {/* Banner image */}
+        {SERVICE_IMAGES[service.slug] && (
+          <img
+            src={SERVICE_IMAGES[service.slug]}
+            alt={`${service.title} — Neerambh compliance services`}
+            className="w-full h-48 md:h-64 object-cover rounded-xl border border-white/10"
+            loading="lazy"
+          />
+        )}
+
         {/* Header */}
         <header className="border-b border-royal-800 pb-6">
           <span className="inline-block mb-3 px-2 py-0.5 rounded bg-royal-900 border border-royal-800 text-[9px] font-bold text-royal-300 uppercase tracking-wider font-mono">
