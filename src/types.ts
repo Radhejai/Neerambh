@@ -10,6 +10,11 @@ export interface Service {
   documentsRequired: string[];
   faqs?: { q: string; a: string }[];
   benefits: string[];
+  /** Path under /public, e.g. /images/services/gst-registration.jpg */
+  image?: string;
+  /** Native aspect ratio of `image` (width/height) — used so the image
+   * container matches it exactly and object-cover never crops the photo. */
+  imageAspect?: '3/2' | '16/9';
 }
 
 export interface Message {

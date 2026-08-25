@@ -21,7 +21,8 @@ export default function AboutSection({ headingTag: Heading = 'h1' }: { headingTa
         <img
           src="/images/team-photo.jpg"
           alt="The Neerambh compliance team at their office"
-          className="w-full h-56 md:h-72 object-cover rounded-xl border border-white/10"
+          className="w-full object-cover rounded-xl border border-white/10"
+          style={{ aspectRatio: '3/2' }}
           loading="lazy"
         />
       </div>

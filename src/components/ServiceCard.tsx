@@ -30,12 +30,24 @@ export default function ServiceCard({ service, onViewDetails }: ServiceCardProps
   return (
     <div 
       onClick={() => onViewDetails(service)}
-      className="group relative flex flex-col justify-between rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition-all duration-300 hover:border-gold-500/50 hover:bg-white/10 royal-glow-hover cursor-pointer"
+      className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl transition-all duration-300 hover:border-gold-500/50 hover:bg-white/10 royal-glow-hover cursor-pointer"
     >
       {/* Dynamic Gold Gradient Border Accent */}
-      <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-      
-      <div>
+      <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 z-10" />
+
+      {/* Cover photo — container matches the source image's own aspect ratio, so
+          object-cover never has to crop any edge to fill the box. */}
+      {service.image && (
+        <img
+          src={service.image}
+          alt={`${service.title} — Neerambh compliance services`}
+          className="w-full object-cover border-b border-white/10"
+          style={{ aspectRatio: service.imageAspect ?? '3/2' }}
+          loading="lazy"
+        />
+      )}
+
+      <div className="p-6">
         {/* Header Category Badge */}
         <div className="flex items-center justify-between mb-4">
           <span className={`inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${catColor}`}>
@@ -59,7 +71,7 @@ export default function ServiceCard({ service, onViewDetails }: ServiceCardProps
       </div>
 
       {/* Footer Details */}
-      <div className="border-t border-royal-800/60 pt-4 mt-auto">
+      <div className="border-t border-royal-800/60 pt-4 mt-auto px-6 pb-6">
         <div className="flex items-center justify-between mb-4">
           <div>
             <span className="block text-[10px] uppercase tracking-widest text-royal-400">Filing Jurisdiction</span>
