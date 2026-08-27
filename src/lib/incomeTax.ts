@@ -1,12 +1,43 @@
 /**
  * Income tax estimator for resident individuals below 60, FY 2026-27
  * (AY 2027-28). Figures per Union Budget 2026 (slabs unchanged from
- * Budget 2025 / Finance Act 2025). This is a simplified estimate:
- * marginal relief on surcharge is not applied, and old-regime deductions
- * are taken as a single combined input rather than itemised 80C/80D/HRA.
+ * Budget 2025 / Finance Act 2025). Note: under the Income Tax Act 2025
+ * (effective 1 April 2026), Sections 80C/80D/80CCD(1B) are renumbered to
+ * Sections 123/126/124 respectively — limits and rules are unchanged,
+ * only the section numbers. This tool keeps the familiar 80C/80D naming
+ * since that's still how these are commonly referred to. This is a
+ * simplified estimate: marginal relief on surcharge is not applied, and
+ * a handful of itemised deductions cover the most common cases rather
+ * than every possible Chapter VI-A deduction.
  */
 
 export type Regime = 'new' | 'old';
+
+export interface OldRegimeDeductionInputs {
+  section80C: number; // PPF, ELSS, life insurance, EPF, home loan principal, etc. — cap 1,50,000
+  section80CCD1B: number; // Additional NPS (own contribution) — cap 50,000, separate from 80C
+  section80DSelf: number; // Health insurance — self & family — cap 25,000
+  section80DParents: number; // Health insurance — parents — cap 25,000 (50,000 if senior citizens)
+  parentsAreSeniorCitizens: boolean;
+  section24B: number; // Home loan interest — self-occupied property — cap 2,00,000
+  section80TTA: number; // Savings account interest — cap 10,000
+  // HRA exemption inputs (computed via formula, not a flat cap)
+  hraBasicSalary: number; // annual
+  hraReceived: number; // annual
+  rentPaid: number; // annual
+  isMetro: boolean;
+}
+
+export interface OldRegimeDeductionBreakdown {
+  section80C: number;
+  section80CCD1B: number;
+  section80DSelf: number;
+  section80DParents: number;
+  section24B: number;
+  section80TTA: number;
+  hraExemption: number;
+  total: number;
+}
 
 export interface TaxBreakdown {
   grossIncome: number;
@@ -38,6 +69,34 @@ const OLD_REGIME_SLABS: [number, number][] = [
   [1000000, 0.2],
   [Infinity, 0.3],
 ];
+
+function capped(value: number, cap: number): number {
+  return Math.min(Math.max(0, value || 0), cap);
+}
+
+export function calculateHraExemption(basic: number, hraReceived: number, rentPaid: number, isMetro: boolean): number {
+  const b = Math.max(0, basic || 0);
+  const received = Math.max(0, hraReceived || 0);
+  const rent = Math.max(0, rentPaid || 0);
+  if (received <= 0 || rent <= 0) return 0;
+  const rentMinus10Pct = Math.max(0, rent - 0.1 * b);
+  const pctOfBasic = (isMetro ? 0.5 : 0.4) * b;
+  return Math.max(0, Math.min(received, rentMinus10Pct, pctOfBasic));
+}
+
+export function sumOldRegimeDeductions(inputs: OldRegimeDeductionInputs): OldRegimeDeductionBreakdown {
+  const section80C = capped(inputs.section80C, 150000);
+  const section80CCD1B = capped(inputs.section80CCD1B, 50000);
+  const section80DSelf = capped(inputs.section80DSelf, 25000);
+  const section80DParents = capped(inputs.section80DParents, inputs.parentsAreSeniorCitizens ? 50000 : 25000);
+  const section24B = capped(inputs.section24B, 200000);
+  const section80TTA = capped(inputs.section80TTA, 10000);
+  const hraExemption = calculateHraExemption(inputs.hraBasicSalary, inputs.hraReceived, inputs.rentPaid, inputs.isMetro);
+
+  const total = section80C + section80CCD1B + section80DSelf + section80DParents + section24B + section80TTA + hraExemption;
+
+  return { section80C, section80CCD1B, section80DSelf, section80DParents, section24B, section80TTA, hraExemption, total };
+}
 
 function slabTax(taxable: number, slabs: [number, number][]): number {
   let tax = 0;
