@@ -6,7 +6,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { SERVICES } from '../src/data';
-import { BLOG_POSTS } from '../src/blogData';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distDir = path.resolve(__dirname, '..', 'dist');
@@ -19,9 +18,9 @@ const publicPaths = [
   '/contact',
   ...SERVICES.map((s) => `/services/${s.slug}`),
   '/insights',
-  '/insights/faq',
   '/insights/feedback',
-  ...BLOG_POSTS.map((p) => `/insights/blog/${p.slug}`),
+  '/calculators/income-tax',
+  '/calculators/gst-late-fee-interest',
 ];
 
 const urls = publicPaths

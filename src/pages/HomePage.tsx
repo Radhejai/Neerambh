@@ -1,14 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { BLOG_POSTS } from '../blogData';
 import ServicesSection from '../components/sections/ServicesSection';
+import ProcessSection from '../components/sections/ProcessSection';
 import AboutSection from '../components/sections/AboutSection';
 import ContactSection from '../components/sections/ContactSection';
-import { Shield, BookOpen } from 'lucide-react';
-
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
-}
+import FadeIn from '../components/FadeIn';
+import { Shield } from 'lucide-react';
 
 interface HomePageProps {
   selectedServices: string[];
@@ -16,8 +12,6 @@ interface HomePageProps {
 }
 
 export default function HomePage({ selectedServices, onToggleService }: HomePageProps) {
-  const latestPosts = [...BLOG_POSTS].sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1)).slice(0, 3);
-
   return (
     <>
       {/* ===== HERO ===== */}
@@ -75,61 +69,22 @@ export default function HomePage({ selectedServices, onToggleService }: HomePage
 
       {/* ===== SERVICES ===== */}
       <section id="services" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-20">
-        <ServicesSection headingTag="h2" />
+        <FadeIn><ServicesSection headingTag="h2" /></FadeIn>
+      </section>
+
+      {/* ===== PROCESS ===== */}
+      <section id="process" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-20">
+        <FadeIn><ProcessSection headingTag="h2" /></FadeIn>
       </section>
 
       {/* ===== ABOUT ===== */}
       <section id="about" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-20">
-        <AboutSection headingTag="h2" />
-      </section>
-
-      {/* ===== BLOG PREVIEW ===== */}
-      <section id="blog" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-20">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <span className="text-[10px] uppercase tracking-widest text-purple-300 font-bold">Compliance Insights</span>
-            <h2 className="mt-2 font-serif text-2xl md:text-3xl font-extrabold text-white">From the Blog</h2>
-          </div>
-          <Link
-            to="/insights"
-            className="hidden sm:inline-flex items-center space-x-2 text-xs font-semibold text-gold-400 hover:text-gold-300 uppercase tracking-widest transition-colors"
-          >
-            <BookOpen className="h-3.5 w-3.5" />
-            <span>View All Posts</span>
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {latestPosts.map((post) => (
-            <Link
-              key={post.slug}
-              to={`/insights/blog/${post.slug}`}
-              className="block rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl hover:border-purple-400/30 transition-all group"
-            >
-              <time className="text-[10px] uppercase tracking-widest text-royal-400 font-mono">
-                {formatDate(post.publishedAt)}
-              </time>
-              <h3 className="mt-2 font-serif text-base font-bold text-white group-hover:text-gold-300 transition-colors leading-snug">
-                {post.title}
-              </h3>
-              <p className="mt-2 text-xs text-royal-300 font-light leading-relaxed line-clamp-3">{post.excerpt}</p>
-              <span className="mt-3 inline-block text-[11px] font-semibold text-purple-300 uppercase tracking-widest">
-                Read more &rarr;
-              </span>
-            </Link>
-          ))}
-        </div>
-
-        <div className="mt-6 text-center sm:hidden">
-          <Link to="/insights" className="text-xs font-semibold text-gold-400 uppercase tracking-widest">
-            View All Posts &rarr;
-          </Link>
-        </div>
+        <FadeIn><AboutSection headingTag="h2" /></FadeIn>
       </section>
 
       {/* ===== CONTACT ===== */}
       <section id="contact" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-20">
-        <ContactSection selectedServices={selectedServices} onToggleService={onToggleService} headingTag="h2" />
+        <FadeIn><ContactSection selectedServices={selectedServices} onToggleService={onToggleService} headingTag="h2" /></FadeIn>
       </section>
     </>
   );

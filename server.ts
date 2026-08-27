@@ -36,8 +36,16 @@ app.get("/api/inquiries", (req, res) => {
 // here (not client-side-only redirects) so search engines transfer
 // ranking signals to the new URLs. Registered before static/catch-all so
 // they win in both dev (Vite middleware) and production.
+// --- LEGACY URL REDIRECTS ---
+// /blog was renamed to /insights, then the Blog tab itself was removed
+// (Insights is now FAQ + Feedback only). Real 301s here (not client-side-
+// only redirects) so search engines transfer ranking signals correctly.
+// Registered before static/catch-all so they win in both dev (Vite
+// middleware) and production.
 app.get("/blog", (req, res) => res.redirect(301, "/insights"));
-app.get("/blog/:slug", (req, res) => res.redirect(301, `/insights/blog/${req.params.slug}`));
+app.get("/blog/:slug", (req, res) => res.redirect(301, "/insights"));
+app.get("/insights/blog/:slug", (req, res) => res.redirect(301, "/insights"));
+app.get("/insights/faq", (req, res) => res.redirect(301, "/insights"));
 
 
 

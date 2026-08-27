@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Crown, Menu, X, Cpu, Compass, Sparkles, Home, Info } from 'lucide-react';
+import { Crown, Menu, X, Cpu, Compass, Sparkles, Home, Info, Calculator } from 'lucide-react';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -8,6 +8,7 @@ export default function Navbar() {
   const navItems = [
     { path: '/', label: 'Home', icon: Home, end: true },
     { path: '/services', label: 'Services', icon: Compass, end: false },
+    { path: '/calculators', label: 'Calculators', icon: Calculator, end: false },
     { path: '/about', label: 'About', icon: Info, end: false },
     { path: '/insights', label: 'Insights', icon: Sparkles, end: false },
     { path: '/contact', label: 'Contact', icon: Cpu, end: false },

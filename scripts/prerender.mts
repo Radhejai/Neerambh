@@ -17,7 +17,7 @@ import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 import App from '../src/App';
 import { SERVICES } from '../src/data';
-import { BLOG_POSTS } from '../src/blogData';
+import { GENERAL_FAQS } from '../src/generalFaqs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distDir = path.resolve(__dirname, '..', 'dist');
@@ -64,25 +64,27 @@ const routes: RouteMeta[] = [
   })),
   {
     path: '/insights',
-    title: 'Insights: Blog, FAQ & Feedback | Neerambh Compliance Advisory',
-    description: 'Practical guides on GST, incorporation, and compliance for growing Indian businesses.',
-  },
-  {
-    path: '/insights/faq',
-    title: 'Frequently Asked Questions | Neerambh Insights',
+    title: 'FAQ & Feedback | Neerambh Compliance Advisory',
     description:
-      'Answers to the most common questions about GST registration, incorporation, tax filing, and compliance services from Neerambh.',
+      'Answers to the most common questions about GST registration, incorporation, tax filing, and compliance services from Neerambh, plus a place to share feedback.',
   },
   {
     path: '/insights/feedback',
     title: 'Feedback & Reviews | Neerambh Insights',
     description: 'Share your feedback on Neerambh\u2019s compliance advisory services.',
   },
-  ...BLOG_POSTS.map((p) => ({
-    path: `/insights/blog/${p.slug}`,
-    title: `${p.title} | Neerambh Insights`,
-    description: p.excerpt,
-  })),
+  {
+    path: '/calculators/income-tax',
+    title: 'Income Tax Calculator (FY 2026-27) | Neerambh',
+    description:
+      'Free income tax calculator for FY 2026-27 \u2014 compare New Regime vs Old Regime tax liability for resident individuals in seconds.',
+  },
+  {
+    path: '/calculators/gst-late-fee-interest',
+    title: 'GST Late Fee & Interest Calculator | Neerambh',
+    description:
+      'Free calculator for GST late fees and interest on delayed GSTR-3B/GSTR-1 filing, based on current CBIC rates and caps.',
+  },
 ];
 
 if (!fs.existsSync(shellPath)) {
@@ -138,11 +140,11 @@ function renderRoute(route: RouteMeta): string {
   }
 
   // FAQPage structured data — for individual service pages (their own
-  // FAQs) and for the aggregated /insights/faq page (every service's FAQs
+  // FAQs) and for the aggregated /insights page (every service's FAQs
   // combined), so Google can surface rich FAQ snippets for both.
   const svc = SERVICES.find((s) => `/services/${s.slug}` === route.path);
-  const allFaqs = SERVICES.flatMap((s) => s.faqs ?? []);
-  const faqsForRoute = route.path === '/insights/faq' ? allFaqs : svc?.faqs;
+  const allFaqs = [...GENERAL_FAQS, ...SERVICES.flatMap((s) => s.faqs ?? [])];
+  const faqsForRoute = route.path === '/insights' ? allFaqs : svc?.faqs;
   if (faqsForRoute && faqsForRoute.length > 0) {
     const faqSchema = {
       '@context': 'https://schema.org',
@@ -156,25 +158,6 @@ function renderRoute(route: RouteMeta): string {
     html = html.replace(
       '</head>',
       `  <script type="application/ld+json">${JSON.stringify(faqSchema)}</script>\n</head>`
-    );
-  }
-
-  // Article structured data for blog posts.
-  const post = BLOG_POSTS.find((p) => `/insights/blog/${p.slug}` === route.path);
-  if (post) {
-    const articleSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'Article',
-      headline: post.title,
-      description: post.excerpt,
-      datePublished: post.publishedAt,
-      author: { '@type': 'Organization', name: 'Neerambh' },
-      publisher: { '@type': 'Organization', name: 'Neerambh' },
-      mainEntityOfPage: canonicalUrl,
-    };
-    html = html.replace(
-      '</head>',
-      `  <script type="application/ld+json">${JSON.stringify(articleSchema)}</script>\n</head>`
     );
   }
 

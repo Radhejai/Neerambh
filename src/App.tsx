@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Link, Navigate, useLocation, useParams } from 'react-router-dom';
+import { Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import ServicesPage from './pages/ServicesPage';
@@ -7,19 +7,12 @@ import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import ServiceDetailPage from './pages/ServiceDetailPage';
 import InsightsLayout from './pages/InsightsLayout';
-import BlogListPage from './pages/BlogListPage';
-import BlogPostPage from './pages/BlogPostPage';
 import FaqPage from './pages/FaqPage';
 import FeedbackPage from './pages/FeedbackPage';
+import CalculatorsLayout from './pages/CalculatorsLayout';
+import IncomeTaxCalculatorPage from './pages/IncomeTaxCalculatorPage';
+import GstLateFeeCalculatorPage from './pages/GstLateFeeCalculatorPage';
 import { Shield } from 'lucide-react';
-
-/** Old /blog/:slug links (pre-Insights) land here and get sent to the new
- * canonical URL. Client-side fallback only — server.ts issues a real 301
- * for crawlers and direct hits in production. */
-function BlogSlugRedirect() {
-  const { slug } = useParams<{ slug: string }>();
-  return <Navigate to={`/insights/blog/${slug}`} replace />;
-}
 
 /** Scroll to the top of the page on every route change — standard
  * multi-page behavior (a click on a nav link should land at the top of
@@ -73,21 +66,19 @@ export default function App() {
           }
         />
         <Route path="/insights" element={<InsightsLayout />}>
-          <Route index element={<BlogListPage />} />
-          <Route path="faq" element={<FaqPage />} />
+          <Route index element={<FaqPage />} />
           <Route path="feedback" element={<FeedbackPage />} />
         </Route>
-        <Route
-          path="/insights/blog/:slug"
-          element={
-            <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-              <BlogPostPage />
-            </main>
-          }
-        />
-        {/* Legacy URLs — permanently moved under /insights. */}
+        <Route path="/calculators" element={<CalculatorsLayout />}>
+          <Route index element={<Navigate to="/calculators/income-tax" replace />} />
+          <Route path="income-tax" element={<IncomeTaxCalculatorPage />} />
+          <Route path="gst-late-fee-interest" element={<GstLateFeeCalculatorPage />} />
+        </Route>
+        {/* Legacy URLs — Blog was removed; old links land on the FAQ tab. */}
+        <Route path="/insights/faq" element={<Navigate to="/insights" replace />} />
+        <Route path="/insights/blog/:slug" element={<Navigate to="/insights" replace />} />
         <Route path="/blog" element={<Navigate to="/insights" replace />} />
-        <Route path="/blog/:slug" element={<BlogSlugRedirect />} />
+        <Route path="/blog/:slug" element={<Navigate to="/insights" replace />} />
         <Route
           path="*"
           element={
@@ -124,6 +115,10 @@ export default function App() {
             <span>&bull;</span>
             <Link to="/about" className="hover:text-gold-400 transition-colors">
               About
+            </Link>
+            <span>&bull;</span>
+            <Link to="/calculators" className="hover:text-gold-400 transition-colors">
+              Calculators
             </Link>
             <span>&bull;</span>
             <Link to="/insights" className="hover:text-gold-400 transition-colors">

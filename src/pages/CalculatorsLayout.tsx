@@ -1,36 +1,34 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { HelpCircle, Star } from 'lucide-react';
+import { Calculator, Receipt } from 'lucide-react';
 
 const TABS = [
-  { path: '/insights', label: 'FAQ', icon: HelpCircle, end: true },
-  { path: '/insights/feedback', label: 'Feedback', icon: Star, end: false },
+  { path: '/calculators/income-tax', label: 'Income Tax', icon: Calculator },
+  { path: '/calculators/gst-late-fee-interest', label: 'GST Late Fee & Interest', icon: Receipt },
 ];
 
-/** Shared shell for the /insights section — houses the FAQ (default) and
- * Feedback (Google Reviews redirect) tabs. */
-export default function InsightsLayout() {
+export default function CalculatorsLayout() {
   return (
-    <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+    <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
       <header className="mb-8">
         <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full border border-gold-500/20 bg-gold-500/5 text-xs text-gold-400 font-semibold uppercase tracking-widest mb-4">
-          <HelpCircle className="h-3.5 w-3.5" />
-          <span>Neerambh Insights</span>
+          <Calculator className="h-3.5 w-3.5" />
+          <span>Free Tools</span>
         </div>
-        <h1 className="font-serif text-3xl md:text-4xl font-extrabold text-white">Insights</h1>
+        <h1 className="font-serif text-3xl md:text-4xl font-extrabold text-white">Calculators</h1>
         <p className="mt-3 text-royal-300 text-sm md:text-base font-light leading-relaxed max-w-2xl">
-          Answers to the questions we hear most often, and a place to leave feedback.
+          Quick estimates for income tax and GST late fees — for exact figures on your specific
+          filing, talk to us.
         </p>
       </header>
 
-      <nav aria-label="Insights sections" className="mb-10 inline-flex rounded-xl border border-white/10 bg-white/5 p-1 backdrop-blur-xl">
+      <nav aria-label="Calculators" className="mb-10 inline-flex flex-wrap rounded-xl border border-white/10 bg-white/5 p-1 backdrop-blur-xl">
         {TABS.map((tab) => {
           const Icon = tab.icon;
           return (
             <NavLink
               key={tab.path}
               to={tab.path}
-              end={tab.end}
               className={({ isActive }) =>
                 `flex items-center space-x-2 px-4 py-2 rounded-lg text-xs md:text-sm font-semibold uppercase tracking-widest transition-all duration-300 ${
                   isActive
