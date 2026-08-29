@@ -1,0 +1,8 @@
+{
+  "redirects": [
+    { "source": "/blog", "destination": "/insights", "permanent": true },
+    { "source": "/blog/:slug", "destination": "/insights", "permanent": true },
+    { "source": "/insights/blog/:slug", "destination": "/insights", "permanent": true },
+    { "source": "/insights/faq", "destination": "/insights", "permanent": true }
+  ]
+}
